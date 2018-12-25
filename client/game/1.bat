@@ -1,0 +1,1 @@
+del E:\jinxing\client\game\*.luac /f/s/q/a
