@@ -331,9 +331,9 @@ function GameModel:onEventUserStatus(useritem,newstatus,oldstatus)
         local viewid = self:SwitchViewChairID(oldstatus.wChairID)
         if viewid and viewid ~= yl.INVALID_CHAIR then
             self._gameView:OnUpdateUser(viewid, nil, useritem.cbUserStatus == yl.US_FREE)
-            if PriRoom then
-                PriRoom:getInstance():onEventUserState(viewid, useritem, true)
-            end
+            -- if PriRoom then
+            --     PriRoom:getInstance():onEventUserState(viewid, useritem, true)
+            -- end
         end
     end
 
@@ -342,9 +342,9 @@ function GameModel:onEventUserStatus(useritem,newstatus,oldstatus)
         local viewid = self:SwitchViewChairID(newstatus.wChairID)
         if viewid and viewid ~= yl.INVALID_CHAIR then
             self._gameView:OnUpdateUser(viewid, useritem)
-            if PriRoom then
-                PriRoom:getInstance():onEventUserState(viewid, useritem, false)
-            end
+            -- if PriRoom then
+            --     PriRoom:getInstance():onEventUserState(viewid, useritem, false)
+            -- end
         end
     end
 
@@ -385,9 +385,9 @@ function GameModel:onEventUserEnter(tableid,chairid,useritem)
         local viewid = self:SwitchViewChairID(chairid)
         if viewid and viewid ~= yl.INVALID_CHAIR then
 			self._gameView:OnUpdateUser(viewid, useritem)
-            if PriRoom then
-                PriRoom:getInstance():onEventUserState(viewid, useritem, false)
-            end
+            -- if PriRoom then
+            --     PriRoom:getInstance():onEventUserState(viewid, useritem, false)
+            -- end
         end
     end
 end

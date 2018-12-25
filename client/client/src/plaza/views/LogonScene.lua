@@ -16,18 +16,18 @@ end
 appdf.req(appdf.CLIENT_SRC .. "plaza.views.layer.game.VoiceRecorderKit")
 
 local targetPlatform = cc.Application:getInstance():getTargetPlatform()
-local privatemgr = ""
-if cc.PLATFORM_OS_WINDOWS == targetPlatform then
-	privatemgr = "client/src/privatemode/plaza/src/models/PriRoom.lua"
-else
-	privatemgr = "client/src/privatemode/plaza/src/models/PriRoom.luac"
-end
-if cc.FileUtils:getInstance():isFileExist(privatemgr) then
-	if not PriRoom then
-		appdf.req(appdf.CLIENT_SRC.."privatemode.plaza.src.models.PriRoom")
-		PriRoom:getInstance()
-	end
-end
+-- local privatemgr = ""
+-- if cc.PLATFORM_OS_WINDOWS == targetPlatform then
+-- 	privatemgr = "client/src/privatemode/plaza/src/models/PriRoom.lua"
+-- else
+-- 	privatemgr = "client/src/privatemode/plaza/src/models/PriRoom.luac"
+-- end
+-- if cc.FileUtils:getInstance():isFileExist(privatemgr) then
+-- 	if not PriRoom then
+-- 		appdf.req(appdf.CLIENT_SRC.."privatemode.plaza.src.models.PriRoom")
+-- 		PriRoom:getInstance()
+-- 	end
+-- end
 
 local LogonScene = class("LogonScene", cc.BaseScene)
 
@@ -486,7 +486,7 @@ function LogonScene:onLogon(szAccount,szPassword,bSave,bAuto)
 	QueryData:setcmdinfo(yl.MDM_MB_LOGON,yl.SUB_MB_QUERY_USERDATA)
 	QueryData:pushbyte(0)
 	QueryData:pushstring(szAccount, yl.LEN_ACCOUNTS)
-
+	print("yl.LOGONSERVER,yl.LOGONPORT=",yl.LOGONSERVER,yl.LOGONPORT)
 	appdf.onSendData(yl.LOGONSERVER, yl.LOGONPORT, QueryData, function (Datatable, Responce)
 		if (Responce.code == 0) then
 			if (Datatable.sub == logincmd.SUB_GP_QUERY_USERDATA_RESULT) then
@@ -496,6 +496,7 @@ function LogonScene:onLogon(szAccount,szPassword,bSave,bAuto)
 				GlobalUserItem.dwUserID = UserID
 				GlobalUserItem.szPassword = self._szPassword
 				FriendMgr:getInstance():reSetAndLogin()
+				-- self._logonFrame:onLogonByAccount(self._szAccount,self._szPassword)
 			elseif (Datatable.sub == logincmd.SUB_GP_OPERATE_FAILURE) then
 				local lResultCode = Datatable.data:readint()
 				local szDescribe = Datatable.data:readstring()
@@ -521,11 +522,27 @@ function LogonScene:onLogon(szAccount,szPassword,bSave,bAuto)
 			local eventListener = cc.EventCustom:new(LogonScene.PROCESS_POPWAIT)
 			eventListener.obj = LogonScene.HIDE_POPWAIT
 			cc.Director:getInstance():getEventDispatcher():dispatchEvent(eventListener)		
+
+
+			-- self:nextServerIP()
+			-- self:onLogon(szAccount,szPassword,bSave,bAuto)
 		end
 	end)
 end
 
---游客登录
+function LogonScene:nextServerIP()
+	-- 切换地址
+	if nil ~= yl.SERVER_LIST[yl.CURRENT_INDEX] then
+		yl.LOGONSERVER = yl.SERVER_LIST[yl.CURRENT_INDEX]
+	end
+	yl.CURRENT_INDEX = yl.CURRENT_INDEX + 1
+	if yl.CURRENT_INDEX > yl.TOTAL_COUNT then
+		yl.CURRENT_INDEX = 1
+	end
+	
+end
+
+--游客登录，100，5
 function LogonScene:onVisitor()
 	--播放音效
     ExternalFun.playClickEffect()
@@ -547,7 +564,9 @@ function LogonScene:onVisitor()
 				local UserID = Datatable.data:readdword()
 				GlobalUserItem.dwUserID = UserID
 				GlobalUserItem.szPassword = self._szPassword
-				FriendMgr:getInstance():reSetAndLogin()
+				-- FriendMgr:getInstance():reSetAndLogin()
+				print("返回成功,登录聊天服务器=",UserID,self._szPassword)
+				self._logonFrame:onLogonByVisitor()
 			elseif (Datatable.sub == logincmd.SUB_GP_OPERATE_FAILURE) then
 				--找不到该游客账号，未注册，调用游客登录注册账号
 				local lResultCode = Datatable.data:readint()
@@ -555,6 +574,7 @@ function LogonScene:onVisitor()
 				--showToast(self, szDescribe, 1)
 				self._logonFrame:onLogonByVisitor()
 				self.isRegister = false
+				print("找不到游客账号")
 				--为什么用消息？异步回调禁止调用对象成员（例如self）你无法保证其生存周期
 				local eventListener = cc.EventCustom:new(LogonScene.PROCESS_POPWAIT)
 				eventListener.obj = LogonScene.HIDE_POPWAIT
@@ -573,7 +593,11 @@ function LogonScene:onVisitor()
 			--为什么用消息？异步回调禁止调用对象成员（例如self）你无法保证其生存周期
 			local eventListener = cc.EventCustom:new(LogonScene.PROCESS_POPWAIT)
 			eventListener.obj = LogonScene.HIDE_POPWAIT
-			cc.Director:getInstance():getEventDispatcher():dispatchEvent(eventListener)		
+			cc.Director:getInstance():getEventDispatcher():dispatchEvent(eventListener)	
+
+
+			-- self:nextServerIP()
+			-- self:onLogon(szAccount,szPassword,bSave,bAuto)	
 		end
 	end)
 end

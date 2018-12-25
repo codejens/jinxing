@@ -96,13 +96,13 @@ function ViewMediator:handleNotification(notification)
 		elseif (msgType == VIEW_LIST.PERSON_LAYER) then
 			mediatorClass = require("client.src.view.mediator.UserInfoMediator")
 			viewClass = require("client.src.plaza.views.layer.plaza.UserInfoLayer")
-		elseif (msgType == VIEW_LIST.POPWAIT_LAYER) then
+		elseif (msgType == VIEW_LIST.POPWAIT_LAYER) then 	--等候界面
 			mediatorClass = nil
 			viewClass = require("client.src.app.views.layer.other.PopWait")
 		elseif (msgType == VIEW_LIST.QUERY_DIALOG_LAYER) then
 			mediatorClass = nil
 			viewClass = require("client.src.app.views.layer.other.QueryDialog")
-		elseif (msgType == VIEW_LIST.SELECT_SYSTEM_HEAD_LAYER) then
+		elseif (msgType == VIEW_LIST.SELECT_SYSTEM_HEAD_LAYER) then 	--头像选择
 			mediatorClass = require("client.src.view.mediator.SelectSystemHeadMediator")
 			viewClass = require("client.src.plaza.views.layer.plaza.SelectSystemHeadLayer")
 		elseif (msgType == VIEW_LIST.SHARE_LAYER) then
@@ -112,12 +112,12 @@ function ViewMediator:handleNotification(notification)
 			mediatorClass = nil
 			assert(msgData.viewClassPath ~= nil, "viewClassPath is nil please check game path")
 			viewClass = require(msgData.viewClassPath)
-		elseif (msgType == VIEW_LIST.ACTIVITY_LAYER) then
-			mediatorClass = nil
-			viewClass = require("client.src.plaza.views.layer.plaza.ActivityLayer")
-		elseif (msgType == VIEW_LIST.ACTIVITY_IOS_LAYER) then
-			mediatorClass = nil
-			viewClass = require("client.src.plaza.views.layer.plaza.ActivityLayerIOS")
+		-- elseif (msgType == VIEW_LIST.ACTIVITY_LAYER) then
+		-- 	mediatorClass = nil
+		-- 	viewClass = require("client.src.plaza.views.layer.plaza.ActivityLayer")
+		-- elseif (msgType == VIEW_LIST.ACTIVITY_IOS_LAYER) then
+		-- 	mediatorClass = nil
+		-- 	viewClass = require("client.src.plaza.views.layer.plaza.ActivityLayerIOS")
 		elseif (msgType == VIEW_LIST.MODIFY_ACCOUNT_PASS_LAYER) then
 			mediatorClass = nil
 			viewClass = require("client.src.plaza.views.layer.plaza.ModifyAccountPasswdLayer")
@@ -181,9 +181,9 @@ function ViewMediator:handleNotification(notification)
 		elseif (msgType == VIEW_LIST.AGENT_AGREATMENT) then
 			mediatorClass = nil
 			viewClass = require("client.src.plaza.views.layer.plaza.AgentAgreatment")
-		elseif (msgType == VIEW_LIST.GAME_RULE) then
-			mediatorClass = nil
-			viewClass = require("client.src.plaza.views.layer.plaza.GameRule")
+		-- elseif (msgType == VIEW_LIST.GAME_RULE) then
+		-- 	mediatorClass = nil
+		-- 	viewClass = require("client.src.plaza.views.layer.plaza.GameRule")
 		elseif (msgType ==  VIEW_LIST.RECHARGE_RIGHT_NOW) then
 			mediatorClass = nil
 			viewClass = require("client.src.plaza.views.layer.plaza.RechargeRightNow")

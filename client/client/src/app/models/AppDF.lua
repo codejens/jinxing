@@ -218,7 +218,7 @@ function appdf.onSendData(url, port, data, recvCallBack)
 	--复制到本地（防止释放）
 	--连接后最大允许未活动时间（超过该时间未活动的通讯连接将会被断开）单位秒
 	data:retain()
-	local freeTimeMaxRemain = 15
+	local freeTimeMaxRemain = 5
 	local curTimeRemain = freeTimeMaxRemain
 	--定时器
 	local scheduler = cc.Director:getInstance():getScheduler()
@@ -274,6 +274,7 @@ function appdf.onSendData(url, port, data, recvCallBack)
 	--网络事件回调
 	local function onEventCallBack(pData)
 		--无效数据
+		print("进入网络事件回调")
 		if  pData == nil then 
 			return
 		end
@@ -285,7 +286,7 @@ function appdf.onSendData(url, port, data, recvCallBack)
 		-- 连接命令
 		local main = pData:getmain()
 		local sub =pData:getsub()
-
+		print("连接命令=",main,sub)
 		if main == yl.MAIN_SOCKET_INFO then 		--网络状态
 			if sub == yl.SUB_SOCKET_CONNECT then
 				threadid = 1	
@@ -305,9 +306,12 @@ function appdf.onSendData(url, port, data, recvCallBack)
 				
 			elseif sub == yl.SUB_SOCKET_ERROR then	--网络错误
 				if threadid then
+					print("回调")
 					onSocketError(pData)
 					onCloseSocket()
 				else
+					
+				print("网络错误=",threadid)
 					onCloseSocket()
 				end			
 			else
@@ -496,8 +500,8 @@ end
 --加载界面根节点，设置缩放达到适配
 function appdf.loadRootCSB( csbFile, parent )
 	local rootlayer = ccui.Layout:create()
-		:setContentSize(1335,750) --这个是资源设计尺寸
-		:setScale(appdf.WIDTH / 1335);
+		:setContentSize(1334,750) --这个是资源设计尺寸
+		:setScale(appdf.WIDTH / 1334);
 	if nil ~= parent then
 		parent:addChild(rootlayer);
 	end
@@ -529,9 +533,11 @@ function appdf.loadImage(plistFileName, imageFilename, callback)
         textureCache:addImage(imageFilename)
 		spriteFrameCache:addSpriteFrames(plistFileName, imageFilename)
     else
-        textureCache:addImageAsync(imageFilename, function ()
-			spriteFrameCache:addSpriteFrames(plistFileName, imageFilename)
-			callback()
+        textureCache:addImageAsync(imageFilename, function (texture)
+            if texture then
+			    spriteFrameCache:addSpriteFrames(plistFileName, imageFilename)
+			end
+            callback(texture)
 		end)
     end
 end

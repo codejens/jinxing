@@ -7,7 +7,7 @@
 local OptionLayer = class("OptionLayer", cc.BaseLayer)
 local ExternalFun = appdf.req(appdf.EXTERNAL_SRC .. "ExternalFun")
 local g_var = ExternalFun.req_var
-local WebViewLayer = appdf.CLIENT_SRC .. "plaza.views.layer.plaza.WebViewLayer"
+-- local WebViewLayer = appdf.CLIENT_SRC .. "plaza.views.layer.plaza.WebViewLayer"
 appdf.req(appdf.CLIENT_SRC.."plaza.models.FriendMgr")
 local NotifyMgr = appdf.req(appdf.EXTERNAL_SRC .. "NotifyMgr")
 local ModifyFrame = appdf.req(appdf.CLIENT_SRC.."plaza.models.ModifyFrame")

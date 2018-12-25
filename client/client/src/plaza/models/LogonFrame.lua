@@ -89,9 +89,9 @@ function LogonFrame:onSubLogonEvent(sub,pData)
 		
 	--重置房间
 		GlobalUserItem.roomlist = {}
-		if PriRoom then
-			PriRoom:getInstance().m_tabPriModeGame = {}
-		end
+		-- if PriRoom then
+		-- 	PriRoom:getInstance().m_tabPriModeGame = {}
+		-- end
 		self._tempAllRoom = {}
 		
 		if (GlobalUserItem.szChangeLogonIP and GlobalUserItem.szChangeLogonIP ~= "") then
@@ -214,9 +214,9 @@ function LogonFrame:onRoomListEvent(sub,pData)
 			--记录游戏ID
 			table.insert(roomlist,k)
 			table.insert(roomlist,v)
-			if PriRoom then
-				PriRoom:getInstance().m_tabPriRoomList[k] = v
-			end
+			-- if PriRoom then
+			-- 	PriRoom:getInstance().m_tabPriRoomList[k] = v
+			-- end
 			--加入缓存
 			table.insert(GlobalUserItem.roomlist,roomlist)
 		end
@@ -262,9 +262,9 @@ function LogonFrame:onSubRoomListInfo(pData)
 
 		if item.wServerType == yl.GAME_GENRE_PERSONAL then
 			if GlobalUserItem.bEnableRoomCard then
-				if PriRoom then
-					PriRoom:getInstance().m_tabPriModeGame[item.wKindID] = true
-				end				
+				-- if PriRoom then
+				-- 	PriRoom:getInstance().m_tabPriModeGame[item.wKindID] = true
+				-- end				
 				table.insert(self._tempAllRoom[item.wKindID], item)
 			end
 		else

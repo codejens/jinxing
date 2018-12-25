@@ -672,11 +672,11 @@ function ShopLayer:ctor(stmod)
 
     -- 加载csb资源
 	local csbPath = ""
-	if (appConfigProxy._appStoreSwitch == 0) then
+	-- if (appConfigProxy._appStoreSwitch == 0) then
 		csbPath = "Shop/ShopLayer.csb"
-	else
-		csbPath = "Shop/ShopLayerAppStore.csb"
-	end
+	-- else
+	-- 	csbPath = "Shop/ShopLayerAppStore.csb"
+	-- end
 	
     local rootLayer, csbNode = appdf.loadRootCSB(csbPath,self)
 	self._csbNode = csbNode
@@ -1045,11 +1045,11 @@ function ShopLayer:onRechargeClickedEvent(sender, itemInfo)
 	elseif typeid == ShopLayer.TYPEID_PROPERTY then
 		--道具购买
 		GlobalUserItem.buyItem = self._propertyList[ShopLayer.TYPEID_PROPERTY]
-        if GlobalUserItem.buyItem.id == "room_card" and PriRoom then
-            self:getRootNode():onChangeShowMode(PriRoom.LAYTAG.LAYER_BUYCARD, GlobalUserItem.buyItem)
-        else
+        -- if GlobalUserItem.buyItem.id == "room_card" and PriRoom then
+        --     self:getRootNode():onChangeShowMode(PriRoom.LAYTAG.LAYER_BUYCARD, GlobalUserItem.buyItem)
+        -- else
             self:getRootNode():onChangeShowMode(yl.SCENE_SHOPDETAIL)
-        end	
+        -- end	
 	elseif typeid == ShopLayer.TYPEID_AGENT_RECHARGE then
 		local agentRechargeLayer = AgentRechargeLayer:create(itemInfo)
 		if (nil ~= agentRechargeLayer) then

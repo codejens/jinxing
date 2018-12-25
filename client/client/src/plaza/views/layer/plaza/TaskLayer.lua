@@ -85,7 +85,7 @@ function TaskLayer:ctor(gameFrame, curGameKind)
 	--返回按钮
 	local background = csbNode:getChildByName("background")
 	local info_top_bg = background:getChildByName("info_top_bg")
-	self._btn_return = info_top_bg:getChildByName("btn_return")
+	self._btn_return = csbNode:getChildByName("btn_return")
     self._btn_return:setPressedActionEnabled(true)
 	self._btn_return:setTag(TaskLayer.BT_RETURN)
 	self._btn_return:addTouchEventListener(self._btcallback)
@@ -186,7 +186,7 @@ function TaskLayer:tableCellAtIndex(view, idx)
     end
 	
     self:createTaskItem(cell, item, view)
-	cell:getChildByTag(3):setTexture("Task/icon_task_"..item.wTaskType..".png")
+	-- cell:getChildByTag(3):loadTexture("icon_task_"..item.wTaskType..".png", UI_TEX_TYPE_PLIST)
 
 	if item.dwTimeLimit ~= 0 then
 		local hour = math.floor(item.dwTimeLimit/3600)
@@ -218,27 +218,27 @@ function TaskLayer:tableCellAtIndex(view, idx)
         btn:setEnabled(true)
         btn:setVisible(true)
         if item.cbTaskStatus == yl.TASK_STATUS_UNFINISH then
-            btn:loadTextureNormal("Task/bt_task_giveup_0.png")
-            btn:loadTexturePressed("Task/bt_task_giveup_1.png")
-            btn:loadTextureDisabled("Task/bt_task_giveup_0.png")
+            btn:loadTextureNormal("bt_task_giveup_0.png", UI_TEX_TYPE_PLIST)
+            btn:loadTexturePressed("bt_task_giveup_1.png", UI_TEX_TYPE_PLIST)
+            btn:loadTextureDisabled("bt_task_giveup_0.png", UI_TEX_TYPE_PLIST)
         elseif item.cbTaskStatus == yl.TASK_STATUS_WAIT then
-            btn:loadTextureNormal("Task/bt_task_take_0.png")
-            btn:loadTexturePressed("Task/bt_task_take_1.png")
-            btn:loadTextureDisabled("Task/bt_task_take_0.png")
+            btn:loadTextureNormal("bt_task_take_0.png", UI_TEX_TYPE_PLIST)
+            btn:loadTexturePressed("bt_task_take_1.png", UI_TEX_TYPE_PLIST)
+            btn:loadTextureDisabled("bt_task_take_0.png", UI_TEX_TYPE_PLIST)
 			item.wTaskProgress = 0 --MXM任务放弃后把任务进度置为空
         elseif item.cbTaskStatus == yl.TASK_STATUS_FAILED then
-            btn:loadTextureNormal("Task/bt_task_fail_0.png")
-            btn:loadTexturePressed("Task/bt_task_fail_1.png")
-            btn:loadTextureDisabled("Task/bt_task_fail_0.png")
+            btn:loadTextureNormal("bt_task_fail_0.png", UI_TEX_TYPE_PLIST)
+            btn:loadTexturePressed("bt_task_fail_1.png", UI_TEX_TYPE_PLIST)
+            btn:loadTextureDisabled("bt_task_fail_0.png", UI_TEX_TYPE_PLIST)
             btn:setEnabled(false)        
         elseif item.cbTaskStatus == yl.TASK_STATUS_SUCCESS then            
-            btn:loadTextureNormal("Task/bt_task_reward_0.png")
-            btn:loadTexturePressed("Task/bt_task_reward_1.png")
-            btn:loadTextureDisabled("Task/bt_task_reward_0.png")
+            btn:loadTextureNormal("bt_task_reward_0.png", UI_TEX_TYPE_PLIST)
+            btn:loadTexturePressed("bt_task_reward_1.png", UI_TEX_TYPE_PLIST)
+            btn:loadTextureDisabled("bt_task_reward_0.png", UI_TEX_TYPE_PLIST)
         else -- 已完成
-            btn:loadTextureNormal("Task/bt_task_finished_0.png")
-            btn:loadTexturePressed("Task/bt_task_finished_1.png")
-            btn:loadTextureDisabled("Task/bt_task_finished_0.png")
+            btn:loadTextureNormal("bt_task_finished_0.png", UI_TEX_TYPE_PLIST)
+            btn:loadTexturePressed("bt_task_finished_1.png", UI_TEX_TYPE_PLIST)
+            btn:loadTextureDisabled("bt_task_finished_0.png", UI_TEX_TYPE_PLIST)
 			btn:setEnabled(false)
         end
     end    
@@ -262,49 +262,52 @@ function TaskLayer:createTaskItem(cell, item, view)
      
     local cy = 53
     local cellwidth = 952
-	
 	--local frame_task_item = self._csbNode:getChildByName("frame_task_item")
-    display.newSprite("Task/frame_task_2.png")
-        :addTo(cell)
-        :move(cellwidth/2, cy)
-        :setTag(1)
+    local img = cc.Sprite:createWithSpriteFrameName("frame_task_2.png")
+    cell:addChild(img)
+    img:move(cellwidth/2, cy)
+    img:setTag(1)
+    
+    img = cc.Sprite:createWithSpriteFrameName("frame_task_5.png")
+    cell:addChild(img)
+    img:move(90, cy)
+    img:setTag(2)
 
-    display.newSprite("Task/frame_task_5.png")
-        :move(90,cy)
-        :setTag(2)
-        :addTo(cell)
     --任务图标
-    display.newSprite("Task/icon_task_0.png")
-        :move(90,cy)
-        :setTag(3)
-        :setScale(0.9)
-        :addTo(cell)
+    img = cc.Sprite:createWithSpriteFrameName("icon_task_" .. item.wTaskType .. ".png")
+    cell:addChild(img)
+    img:move(90, cy)
+    img:setScale(0.9)
+    img:setTag(3)
 
     --任务名称
-    display.newSprite("Task/text_task_task.png")
-        :move(195,80)
-        :setTag(4)
-        :addTo(cell)
+    img = cc.Sprite:createWithSpriteFrameName("text_task_task.png")
+    cell:addChild(img)
+    img:move(195,80)
+    img:setTag(4)
+
     local cpName = ClipText:createClipText(cc.size(280,30), item.szTaskName, "base/fonts/round_body.ttf", 25)
     cpName:setAnchorPoint(cc.p(0, 0.5))
     cpName:setPosition(230, 80)
     cpName:setTag(5)
     cell:addChild(cpName)
 
-    --任务进度
-    display.newSprite("Task/text_task_progress.png")
-        :addTo(cell)
-        :move(210-15,35)
-    display.newSprite("Task/frame_task_progress_0.png")
-        :addTo(cell)
-        :move(360-15,33)
-    --进度条
-    display.newSprite("Task/frame_task_progress_1.png")
-        :setTextureRect(cc.rect(0,0,1,20))
-        :setAnchorPoint(cc.p(0,0.5))
-        :move(250-15,33)
-        :setTag(6)
-        :addTo(cell)
+    -- --任务进度
+    img = cc.Sprite:createWithSpriteFrameName("text_task_progress.png")
+    cell:addChild(img)
+    img:move(210-15,35)
+
+    img = cc.Sprite:createWithSpriteFrameName("frame_task_progress_0.png")
+    cell:addChild(img)
+    img:move(360-15,33)
+
+    -- --进度条
+    img = cc.Sprite:createWithSpriteFrameName("frame_task_progress_1.png")
+    cell:addChild(img)
+    img:setTextureRect(cc.rect(0,0,1,20))
+    img:setAnchorPoint(cc.p(0,0.5))
+    img:move(250-15,33)
+	img:setTag(6)
     --进度文字
     cc.Label:createWithTTF(""..item.wTaskProgress.."/"..item.wTaskObject, "base/fonts/round_body.ttf", 14)
             :setAnchorPoint(cc.p(0.5,0.5))
@@ -318,10 +321,11 @@ function TaskLayer:createTaskItem(cell, item, view)
             :setTextColor(cc.c4b(255,255,255,255))
             :addTo(cell)
 
-    --时间限制
-    display.newSprite("Task/text_task_time.png")
-        :move(520,80)
-        :addTo(cell)
+    -- --时间限制
+    img = cc.Sprite:createWithSpriteFrameName("text_task_time.png")
+    cell:addChild(img)
+    img:move(520,80)
+
     cc.Label:createWithTTF("无时限", "base/fonts/round_body.ttf", 24)
             :setAnchorPoint(cc.p(0,0.5))
             :move(558,80)
@@ -334,24 +338,25 @@ function TaskLayer:createTaskItem(cell, item, view)
             :setTextColor(cc.c4b(255,255,255,255))
             :addTo(cell)
 
-    --任务奖励
-    display.newSprite("Task/text_task_reward.png")
-        :move(520,35)
-        :addTo(cell)
+    -- --任务奖励
+    img = cc.Sprite:createWithSpriteFrameName("text_task_reward.png")
+    cell:addChild(img)
+    img:move(520,35)
 
-    display.newSprite("Task/icon_task_gold_1.png")
-        :move(582,35)
-        :setScale(0.65)
-        :addTo(cell)
-	
-    cc.LabelAtlas:_create(string.formatNumberFhousands(item.lStandardAwardGold), "Task/num_task_1.png", 18, 25, string.byte("."))
+    img = cc.Sprite:createWithSpriteFrameName("icon_task_gold_1.png")
+    cell:addChild(img)
+    img:move(582,35)
+    img:setScale(0.65)
+
+	---[[
+    cc.LabelAtlas:_create(string.formatNumberFhousands(item.lStandardAwardGold), "font/num_task_1.png", 18, 25, string.byte("."))
         :move(605,35)
         :setAnchorPoint(cc.p(0,0.5))
         :addTo(cell)
-	
+	--]]
 
     --操作按钮
-    ccui.Button:create("Task/bt_task_take_0.png","Task/bt_task_take_1.png","Task/bt_task_take_0.png")
+    ccui.Button:create("bt_task_take_0.png","bt_task_take_1.png","bt_task_take_0.png", UI_TEX_TYPE_PLIST)
         :move(815,cy)
         :setTag(TaskLayer.BT_CELL)
         :addTo(cell)

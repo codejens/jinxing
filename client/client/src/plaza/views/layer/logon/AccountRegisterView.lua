@@ -1,3 +1,6 @@
+--[[
+注册界面
+--]]
 local logincmd = appdf.req(appdf.HEADER_SRC .. "CMD_LogonServer")
 local MultiPlatform = appdf.req(appdf.EXTERNAL_SRC .. "MultiPlatform")
 

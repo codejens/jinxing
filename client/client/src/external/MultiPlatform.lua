@@ -55,9 +55,19 @@ function MultiPlatform:getMachineId()
 	if nil ~= g_var(PLATFORM[plat]) and nil ~= g_var(PLATFORM[plat]).getMachineId then
 		return g_var(PLATFORM[plat]).getMachineId()
 	else
-		print("平台不支持" .. plat)
-		return "A501164B366ECFC9E249163873094D53"
+		if plat == 0 then --windows
+			local socket = require('socket')
+			local MyIP
+			if socket then
+				local MyHostName = socket.dns.gethostname()	--本机名
+				MyIP = socket.dns.toip(MyHostName)	--本机IP
+				print("MyHostName,MyIP=",MyHostName,MyIP)
+                return MyIP
+            end
+		end
 	end	
+	print("平台不支持" .. plat)
+	return "A501164B366ECFC9E249163873094D53"
 end
 
 --获取设备ip
@@ -65,9 +75,8 @@ function MultiPlatform:getClientIpAdress()
 	local plat = self:getSupportPlatform()
 
 	if nil ~= g_var(PLATFORM[plat]) and nil ~= g_var(PLATFORM[plat]).getMachineId then
-		return g_var(PLATFORM[plat]).getClientIpAdress( )
+		return g_var(PLATFORM[plat]).getClientIpAdress()
 	else
-		print("平台不支持" .. plat)
 		return "192.168.1.1"
 	end	
 end

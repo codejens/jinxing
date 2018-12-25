@@ -391,6 +391,7 @@ function CheckinLayer:reloadCheckin()
 			self:getChildByTag(CheckinLayer.TEXT_GOLD+i):setString("" .. string.formatNumberFhousands(gold))
 		end
 	end
+	print('GlobalUserItem.wSeriesDate=',GlobalUserItem.wSeriesDate)
 	for i = GlobalUserItem.wSeriesDate + 1, 6 do
 		self:getChildByTag(CheckinLayer.BG_CHECKIN+i):setTexture("Checkin/back_checkin_2.png")
 		

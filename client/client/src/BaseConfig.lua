@@ -1,6 +1,6 @@
 BaseConfig = BaseConfig or {}
 --官网（资源服务器 + 网站）
-BaseConfig.WEB_HTTP_URL ="http://192.168.102.250:3795"--"http://web.miankee.top:37951"--"http://game.aidingh.cn:37951"--"http://www.8800212.com:8801"--"http://web.beiyoub.top:37951"----"http://www.y5oc.cn:8081"------"http://web.yoohg.xyz"----""-- --
+BaseConfig.WEB_HTTP_URL ="http://192.168.102.250:37951"--"http://web.miankee.top:37951"--"http://game.aidingh.cn:37951"--"http://www.8800212.com:8801"--"http://web.beiyoub.top:37951"----"http://www.y5oc.cn:8081"------"http://web.yoohg.xyz"----""-- --
 --是否为AppStore版本
 BaseConfig.APPSTORE_VERSION = false 
 --代理号标识（每一个包一个代理号 0无代理）

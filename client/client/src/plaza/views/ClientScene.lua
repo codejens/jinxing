@@ -28,7 +28,7 @@ local LevelFrame = appdf.req(appdf.CLIENT_SRC.."plaza.models.LevelFrame")
 local ShopDetailFrame = appdf.req(appdf.CLIENT_SRC.."plaza.models.ShopDetailFrame")
 local TaskFrame = appdf.req(appdf.CLIENT_SRC.."plaza.models.TaskFrame")
 
-local BankRecord = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.BankRecordLayer")
+-- local BankRecord = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.BankRecordLayer")
 local CashRecord = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.CashRecordLayer")
 
 local OrderRecord = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.OrderRecordLayer")
@@ -49,7 +49,7 @@ local Binding = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.BindingLaye
 
 local Friend = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.friend.FriendLayer")
 
-local TableLayer = appdf.req(appdf.CLIENT_SRC .. "plaza.views.layer.plaza.TableLayer")
+-- local TableLayer = appdf.req(appdf.CLIENT_SRC .. "plaza.views.layer.plaza.TableLayer")
 
 local FeedbackLayer = appdf.req(appdf.CLIENT_SRC .. "plaza.views.layer.plaza.FeedbackLayer")
 
@@ -73,7 +73,7 @@ local chat_cmd = appdf.req(appdf.HEADER_SRC.."CMD_ChatServer")
 local GameChatLayer = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.game.GameChatLayer")
 
 local PromoterInputLayer = import(".layer.plaza.PromoterInputLayer")
-local ActivityLayer = import(".layer.plaza.ActivityLayer")
+-- local ActivityLayer = import(".layer.plaza.ActivityLayer")
 local EarnMoney = import(".layer.plaza.EarnMoney")
 local QrCodeLayer = import(".layer.plaza..QrCodeLayer")
 
@@ -149,9 +149,9 @@ function ClientScene:ctor()
 		self:onRoomCallBack(code,result)
 	end)	
 	
-	if PriRoom then
-		PriRoom:getInstance():onEnterPlaza(self, self._gameFrame)
-	end
+	-- if PriRoom then
+	-- 	PriRoom:getInstance():onEnterPlaza(self, self._gameFrame)
+	-- end
 	
 	local btcallback = function(ref, type)
         if type == ccui.TouchEventType.ended then
@@ -238,11 +238,11 @@ function ClientScene:ctor()
 	end
 	
 	--约牌
-	local btpribrand = ExternalFun.seekWigetByNameEx(csbNode, "btn_brand")
-	for _,v in ipairs(btpribrand) do
-		v:setTag(ClientScene.BT_PRIBRAND)
-		v:addTouchEventListener(btcallback)
-	end	
+	-- local btpribrand = ExternalFun.seekWigetByNameEx(csbNode, "btn_brand")
+	-- for _,v in ipairs(btpribrand) do
+	-- 	v:setTag(ClientScene.BT_PRIBRAND)
+	-- 	v:addTouchEventListener(btcallback)
+	-- end	
 	
 	--查看信息
 	local btPersonInfo = ExternalFun.seekWigetByNameEx(csbNode, "bt_person")
@@ -256,8 +256,8 @@ function ClientScene:ctor()
 		-- local head = HeadSprite:createNormalCircle(GlobalUserItem, 94, "head_mask.png")
         local head = HeadSprite:createClipHead(GlobalUserItem, 80)
         -- local head = HeadSprite:createNormal(GlobalUserItem, 70)
-		head:setCascadeOpacityEnabled(true)
 		if nil ~= head then
+			head:setCascadeOpacityEnabled(true)
 			local personBtnContentSize = v:getContentSize()
 			head:setPosition(personBtnContentSize.width / 2, personBtnContentSize.height / 2)
 			v:addChild(head)
@@ -269,27 +269,26 @@ function ClientScene:ctor()
 --        	defaultCell:setPosition(cc.p(-31, -32))
 --            defaultCell:setZOrder(3)
 --        	v:addChild(defaultCell)
-		end
         -- GlobalUserItem.cbMemberOrder=2
-       if GlobalUserItem.cbMemberOrder~=0 then
-      
-        local head_icon = self._csbNode:getChildByName("plaza_top_item_bg_1"):getChildByName("bt_person"):getChildByName("sp_frame_0_1")
-        local head_icon_size = head_icon:getContentSize()
-		 local img_level = cc.Sprite:createWithSpriteFrameName("vip_head_label_"..GlobalUserItem.cbMemberOrder..".png")
-        img_level:setPosition(head_icon_size.width+60, head_icon_size.height+78)
-        img_level:setScale(3.2)
-        head:addChild(img_level)
-        else
-         local head_icon = self._csbNode:getChildByName("plaza_top_item_bg_1"):getChildByName("bt_person"):getChildByName("sp_frame_0_1")
-        local head_icon_size = head_icon:getContentSize()
-		 local img_level = cc.Sprite:createWithSpriteFrameName("head_icon.png")
-        img_level:setPosition(head_icon_size.width+75, head_icon_size.height+76)
-        img_level:setScale(3)
-        head:addChild(img_level)
-        end
-		self:attach("M2V_Update_UserFace", function (e, obj)
-			head:updateHead(obj)
-		end)	
+	        if GlobalUserItem.cbMemberOrder~=0 then
+				local head_icon = self._csbNode:getChildByName("plaza_top_item_bg_1"):getChildByName("bt_person"):getChildByName("sp_frame_0_1")
+				local head_icon_size = head_icon:getContentSize()
+				local img_level = cc.Sprite:createWithSpriteFrameName("vip_head_label_"..GlobalUserItem.cbMemberOrder..".png")
+				img_level:setPosition(head_icon_size.width+60, head_icon_size.height+78)
+				img_level:setScale(3.2)
+				head:addChild(img_level)
+	        else
+				local head_icon = self._csbNode:getChildByName("plaza_top_item_bg_1"):getChildByName("bt_person"):getChildByName("sp_frame_0_1")
+				local head_icon_size = head_icon:getContentSize()
+				local img_level = cc.Sprite:createWithSpriteFrameName("head_icon.png")
+				img_level:setPosition(head_icon_size.width+75, head_icon_size.height+76)
+				img_level:setScale(3)
+				head:addChild(img_level)
+	        end
+			self:attach("M2V_Update_UserFace", function (e, obj)
+				head:updateHead(obj)
+			end)	
+		end
 	end		
 
 
@@ -414,11 +413,11 @@ function ClientScene:ctor()
 		v:setTag(ClientScene.BT_BANK)
 		v:addTouchEventListener(btcallback)
 		--处理动画
-		local btn_bank_ani = v:getChildByName("bank_ani_node")
-		if (btn_bank_ani) then
-			local act = btn_bank_ani:getActionByTag(btn_bank_ani:getTag())
-			act:play("light", true)
-		end
+		-- local btn_bank_ani = v:getChildByName("bank_ani_node")
+		-- if (btn_bank_ani) then
+		-- 	local act = btn_bank_ani:getActionByTag(btn_bank_ani:getTag())
+		-- 	act:play("light", true)
+		-- end
 	end
 	
 	--赚金
@@ -489,19 +488,19 @@ function ClientScene:ctor()
     --local qrlayer = QrCodeLayer:create(self)
 		--self:addChild(qrlayer)
 	--开户豪礼
-	local btn_kaihu = ExternalFun.seekWigetByNameEx(csbNode, "btn_kaihu")
-	for _,v in ipairs(btn_kaihu) do
-		v:setTag(ClientScene.BT_KAIHU)
-		v:addTouchEventListener(btcallback)
+	-- local btn_kaihu = ExternalFun.seekWigetByNameEx(csbNode, "btn_kaihu")
+	-- for _,v in ipairs(btn_kaihu) do
+	-- 	v:setTag(ClientScene.BT_KAIHU)
+	-- 	v:addTouchEventListener(btcallback)
 				
-		local kaihu_ani_node = v:getChildByName("kaihu_ani_node")
-		if (kaihu_ani_node) then
-			local act = kaihu_ani_node:getActionByTag(kaihu_ani_node:getTag())
-			act:play("light", true)
-		end
-		--用户已绑定就隐藏
-		v:setVisible(GlobalUserItem.szRegisterMobile == "")
-	end		
+	-- 	local kaihu_ani_node = v:getChildByName("kaihu_ani_node")
+	-- 	if (kaihu_ani_node) then
+	-- 		local act = kaihu_ani_node:getActionByTag(kaihu_ani_node:getTag())
+	-- 		act:play("light", true)
+	-- 	end
+	-- 	--用户已绑定就隐藏
+	-- 	v:setVisible(GlobalUserItem.szRegisterMobile == "")
+	-- end		
 
 	--好友
 	local btn_friend = ExternalFun.seekWigetByNameEx(csbNode, "btn_friend")
@@ -524,11 +523,11 @@ function ClientScene:ctor()
 		v:addTouchEventListener(btcallback)
 	end			
 	--活动
-	local btn_active = ExternalFun.seekWigetByNameEx(csbNode, "btn_active")
-	for _,v in ipairs(btn_active) do
-		v:setTag(ClientScene.BT_ACTIVITY)
-		v:addTouchEventListener(btcallback)
-	end
+	-- local btn_active = ExternalFun.seekWigetByNameEx(csbNode, "btn_active")
+	-- for _,v in ipairs(btn_active) do
+	-- 	v:setTag(ClientScene.BT_ACTIVITY)
+	-- 	v:addTouchEventListener(btcallback)
+	-- end
 	
 	--赚金	
 	local btn_earn = ExternalFun.seekWigetByNameEx(csbNode, "btn_earn")
@@ -560,11 +559,11 @@ function ClientScene:ctor()
 	end	
 	
 	--赛事
-	local btn_macth = ExternalFun.seekWigetByNameEx(csbNode, "btn_macth")
-	for _,v in ipairs(btn_macth) do
-		v:setTag(ClientScene.BT_MATCH)
-		v:addTouchEventListener(btcallback)
-	end		
+	-- local btn_macth = ExternalFun.seekWigetByNameEx(csbNode, "btn_macth")
+	-- for _,v in ipairs(btn_macth) do
+	-- 	v:setTag(ClientScene.BT_MATCH)
+	-- 	v:addTouchEventListener(btcallback)
+	-- end		
 	
 	--兑换
 	local btn_exchange = ExternalFun.seekWigetByNameEx(csbNode, "btn_exchange")
@@ -581,11 +580,13 @@ function ClientScene:ctor()
 	end	
 
 	--规则
-	local btn_rule = ExternalFun.seekWigetByNameEx(csbNode, "btn_rule")
-	for _,v in ipairs(btn_rule) do
-		v:setTag(ClientScene.BT_RULE)
-		v:addTouchEventListener(btcallback)
-	end	
+	-- local btn_rule = ExternalFun.seekWigetByNameEx(csbNode, "btn_rule")
+	-- dump(btn_rule,"8888888888888888888")
+	-- for _,v in ipairs(btn_rule) do
+	-- 	print("sddddddddddddddddddddddddddddddddd")
+	-- 	v:setTag(ClientScene.BT_RULE)
+	-- 	v:addTouchEventListener(btcallback)
+	-- end	
 	
 	--添加点击监听事件
 	local moreBg = ExternalFun.seekWigetByName(csbNode, "more_bg")
@@ -622,25 +623,25 @@ function ClientScene:ctor()
 	--self._notifyText = ExternalFun.seekWigetByName(self._csbNode, "gg_text")
 
 	self.m_bSingleGameMode = false
-	if 1 == #appConfigProxy._gameList and yl.SINGLE_GAME_MODOLE then
-		--默认使用第一个游戏
-		local entergame = appConfigProxy._gameList[1]
-		if nil ~= entergame then
-			self.m_bSingleGameMode = true
-			self:updateEnterGameInfo(entergame)
-			GlobalUserItem.setCurGameKind(tonumber(entergame._KindID))
+	-- if 1 == #appConfigProxy._gameList and yl.SINGLE_GAME_MODOLE then
+	-- 	--默认使用第一个游戏
+	-- 	local entergame = appConfigProxy._gameList[1]
+	-- 	if nil ~= entergame then
+	-- 		self.m_bSingleGameMode = true
+	-- 		self:updateEnterGameInfo(entergame)
+	-- 		GlobalUserItem.setCurGameKind(tonumber(entergame._KindID))
 			
-			if PriRoom and true == PriRoom:getInstance():isCurrentGameOpenPri(GlobalUserItem.getCurGameKind()) then
-				self:onChangeShowMode(PriRoom.LAYTAG.LAYER_ROOMLIST)
-			else
-				self:onChangeShowMode(yl.SCENE_ROOMLIST)
-			end
-		else
-			self:onChangeShowMode(yl.SCENE_GAMELIST)
-		end	
-	else
-		--self:onChangeShowMode(yl.SCENE_GAMELIST)
-	end
+	-- 		if PriRoom and true == PriRoom:getInstance():isCurrentGameOpenPri(GlobalUserItem.getCurGameKind()) then
+	-- 			self:onChangeShowMode(PriRoom.LAYTAG.LAYER_ROOMLIST)
+	-- 		else
+	-- 			self:onChangeShowMode(yl.SCENE_ROOMLIST)
+	-- 		end
+	-- 	else
+	-- 		self:onChangeShowMode(yl.SCENE_GAMELIST)
+	-- 	end	
+	-- else
+	-- 	--self:onChangeShowMode(yl.SCENE_GAMELIST)
+	-- end
 
 	local shopDetail = function(result, msg)
 		if result == yl.SUB_GP_QUERY_BACKPACKET_RESULT then
@@ -649,27 +650,27 @@ function ClientScene:ctor()
 		
 		-- 是否处理锁表
 		local bHandleLockGame = true
-		if PriRoom then
-			-- 是否锁表、是否更新游戏、是否锁私人房
-			local lockGame, updateGame, lockPriGame = PriRoom:getInstance():onEnterPlazaFinish()	
-			if lockGame then
-				if not updateGame and not lockPriGame then
-					bHandleLockGame = false
-				end
-				if nil ~= self._checkInFrame then
-					self._checkInFrame:onCloseSocket()
-					self._checkInFrame = nil
-				end
+		-- if PriRoom then
+		-- 	-- 是否锁表、是否更新游戏、是否锁私人房
+		-- 	local lockGame, updateGame, lockPriGame = PriRoom:getInstance():onEnterPlazaFinish()	
+		-- 	if lockGame then
+		-- 		if not updateGame and not lockPriGame then
+		-- 			bHandleLockGame = false
+		-- 		end
+		-- 		if nil ~= self._checkInFrame then
+		-- 			self._checkInFrame:onCloseSocket()
+		-- 			self._checkInFrame = nil
+		-- 		end
 
-				AppFacade:getInstance():sendNotification(GAME_COMMAMD.POP_VIEW, {Name = VIEW_LIST.POPWAIT_LAYER})	
-			else
-				-- 任务信息查询
-				self:queryTaskInfo()
-			end
-		else
+		-- 		AppFacade:getInstance():sendNotification(GAME_COMMAMD.POP_VIEW, {Name = VIEW_LIST.POPWAIT_LAYER})	
+		-- 	else
+		-- 		-- 任务信息查询
+		-- 		self:queryTaskInfo()
+		-- 	end
+		-- else
 			-- 任务信息查询
 			self:queryTaskInfo()
-		end
+		-- end
 
 		if not bHandleLockGame then
 			-- 普通房锁表登陆
@@ -700,13 +701,13 @@ function ClientScene:ctor()
 				bRes = true
 			else
 				-- 显示广告
-				if GlobalUserItem.isShowAdNotice() then
+				-- if GlobalUserItem.isShowAdNotice() then
 					--伟东需求 暂时屏蔽
 					--if(appConfigProxy._appStoreSwitch == 0) then
 					--	local webview = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.WebViewLayer"):create(self)
 					--	self:addChild(webview)
 					--end
-				end
+				-- end
 				self._checkInFrame = nil
 			end
 		elseif result == self._checkInFrame.QUERYMEMBERGIFT then
@@ -719,12 +720,12 @@ function ClientScene:ctor()
 				self:onChangeShowMode(yl.SCENE_CHECKIN)
 			else
 				-- 显示广告
-				if GlobalUserItem.isShowAdNotice() then
-					if(appConfigProxy._appStoreSwitch == 0) then
-						local webview = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.WebViewLayer"):create(self)
-						self:addChild(webview)
-					end
-				end
+				-- if GlobalUserItem.isShowAdNotice() then
+				-- 	if(appConfigProxy._appStoreSwitch == 0) then
+				-- 		local webview = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.WebViewLayer"):create(self)
+				-- 		self:addChild(webview)
+				-- 	end
+				-- end
 			end
 			self._checkInFrame = nil
 		end
@@ -968,15 +969,15 @@ function ClientScene:ctor()
 	--请求大厅公告
 	appConfigProxy:requestNotice()
 	
-	if (appConfigProxy._appStoreSwitch == 0) then
+	-- if (appConfigProxy._appStoreSwitch == 0) then
 		self:initGameList()
-	else
-		if (#BaseConfig.APPSTORE_GAME_LIST == 1) then
-			self:initRoomList(BaseConfig.APPSTORE_GAME_LIST[1])
-		else
-			self:initGameList()
-		end
-	end	
+	-- else
+	-- 	if (#BaseConfig.APPSTORE_GAME_LIST == 1) then
+	-- 		-- self:initRoomList(BaseConfig.APPSTORE_GAME_LIST[1])
+	-- 	else
+	-- 		self:initGameList()
+	-- 	end
+	-- end	
 	
 	local undateScore = cc.EventListenerCustom:create(yl.RY_USERINFO_NOTIFY,handler(self, self.onUserInfoChange))
 	cc.Director:getInstance():getEventDispatcher():addEventListenerWithSceneGraphPriority(undateScore, self)
@@ -1067,9 +1068,9 @@ function ClientScene:onExit()
 	self:unregisterNotify()		
 	removeBackGroundCallback()
 
-	if PriRoom then
-		PriRoom:getInstance():onExitPlaza()
-	end			
+	-- if PriRoom then
+	-- 	PriRoom:getInstance():onExitPlaza()
+	-- end			
 	return self
 end
 
@@ -1185,8 +1186,7 @@ function ClientScene:initGameList()
 		end
 		
 		AppFacade:getInstance():sendNotification(GAME_COMMAMD.PUSH_VIEW, {ctor = {"精美宣传图生成中，请稍后..."}, viewcallback = viewcallback, canrepeat = false}, VIEW_LIST.ROATEWAIT_LAYER)	
-		
-    end)
+	end)
 	local pageLayout = nil
 	
 	--审核模式 显示不同个数的游戏
@@ -1276,11 +1276,9 @@ function ClientScene:initGameList()
       
 		local btnGame = pageLayout:getChildByName(string.format("btn_game_%d", index + 1))
 		btnGame:addClickEventListener(handler(self, self.onGameClickEvent))
-		
+		local btnGame_size = btnGame:getContentSize()
 		btnGame:loadTextures(unsel_img, sel_img, "", ccui.TextureResType.plistType)
-		
 		btnGame:setTag(tonumber(gameinfo._KindID))
-		
 		btnGame:setVisible(true)
 		  if gameinfo._KindID == "410" then
           -- self:getAniByFile("plaza/JingqinqidaiAnimation.ExportJson", "JingqinqidaiAnimation", "Animation1", cc.p(150,180),btnGame)
@@ -1288,122 +1286,122 @@ function ClientScene:initGameList()
 		--检测是否有更新
        -- if gameinfo._KindID ~= "410" then
            
-        
-		                            local version = versionProxy:getResVersion(gameinfo._KindID)
-		
-                                    print("clientgameversion",gameinfo._KindID,version)
-		                            if version then
-			                            if gameinfo._ServerResVersion > version then
-				                            if (appConfigProxy._appStoreSwitch == 0) then
-					                            btnGame:getChildByName("update_tips"):setVisible(true)
-                                            else
-                                                btnGame:getChildByName("update_tips"):setVisible(false)
-				                            end
-			                            end
-		                            else
-			                            if (appConfigProxy._appStoreSwitch == 0) then
-				                            btnGame:getChildByName("update_tips"):setVisible(true)
-			                            end
-		                            end
-		
-		                            --审核模式 只显示一页
-		                            if (appConfigProxy._appStoreSwitch == 1) then
-			                            if (i == MAX_SHOW_LIST) then
-				                            break
-			                            end
-		                            end
-	                            end
-	
-	                            --附加更新大厅视图事件
-	                            self:attach("M2V_Update_Plaza_Game_List", function (e, obj)
-		                            local curIndexBak = pageView:getCurrentPageIndex()
-		                            pageView:removeAllItems()
-		                            self._btnGameArrayCache = {}
-		
-		                            local gameListAccessProxy = AppFacade:getInstance():retrieveProxy("GameListAccessProxy")
-		                            local backGameList = clone(gamelist)
-		                            for i=#gameListAccessProxy._gameList, 1, -1 do
-			                            for j=1, #backGameList do
-				                            if (backGameList[j]._KindID == gameListAccessProxy._gameList[i].kinid) then
-					                            local Item = table.remove(backGameList, j)
-					                            table.insert(backGameList, 1, Item)    
-					                            break
-				                            end
-			                            end
-		                            end
-		
-		                            pageCount = 0
-		                            for i = 1, #backGameList do
-			                            local index = (i - 1) % MAX_SHOW_LIST
-			                            if (index == 0) then
-				                            pageLayout = mediumLayout:getChildByName("GameListItem"):clone()
-				                            pageView:pushBackCustomItem(pageLayout)
-				                            pageCount = pageCount + 1
-			                            end
-			
-			                            assert(pageLayout ~= nil, "can't find game item")
-			
-			                            local gameinfo = backGameList[i]
-		
-			                            local unsel_img = string.format("game_%d_%d.png", gameinfo._KindID, 0)
-			                            local sel_img = string.format("game_%d_%d.png", gameinfo._KindID, 1)
-			
-			                            local unsel_frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(unsel_img)
-			                            local sel_frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(sel_img)
-			
-			                            --图片存在检查
-			                            if unsel_frame == nil then
-				                            unsel_img = "game_default.png"
-				                            unsel_frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(unsel_img)
-				                            assert(unsel_frame ~= nil, "can't find imageframe")
-			                            end
-			
-			                            if sel_frame == nil then
-				                            sel_img = "game_default.png"
-				                            sel_frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(sel_img)
-				                            assert(sel_frame ~= nil, "can't find imageframe")
-			                            end
-			
 
-			                            local btnGame = pageLayout:getChildByName(string.format("btn_game_%d", index + 1))
-                                        
-			                            btnGame:addClickEventListener(handler(self, self.onGameClickEvent))
-			
-			                            btnGame:loadTextures(unsel_img, sel_img, "", ccui.TextureResType.plistType)
-			
-			                            --更新数据
-			                            self._btnGameArrayCache[gameinfo._KindID] = btnGame
-			
-			                            btnGame:setTag(tonumber(gameinfo._KindID))
-			
-			                            btnGame:setVisible(true)
-			
-			                            --检测是否有更新
-			                            local version = versionProxy:getResVersion(gameinfo._KindID)
-			
-			                            if version then
-				                            if gameinfo._ServerResVersion > version and gameinfo._kindID ~= "410" then
-					                            if (appConfigProxy._appStoreSwitch == 0) then
-						                            btnGame:getChildByName("update_tips"):setVisible(true)
-					                            end
-				                            end
-			                            else
-				                            if (appConfigProxy._appStoreSwitch == 0 and gameinfo._kindID ~= "410") then
-					                            btnGame:getChildByName("update_tips"):setVisible(true)
-				                            end
-			                            end
-			
+		local version = versionProxy:getResVersion(gameinfo._KindID)
 
-			                            --审核模式 只显示一页
-			                            if (appConfigProxy._appStoreSwitch == 1) then
-				                            if (i == MAX_SHOW_LIST) then
-					                            break
-				                            end
-			                            end			
-		                            end
-		
-		                            pageView:scrollToPage(curIndexBak)
-	                            end)	
+		-- print("clientgameversion",gameinfo._KindID,version)
+		if version then
+		    if gameinfo._ServerResVersion > version then
+		        if (appConfigProxy._appStoreSwitch == 0) then
+		            btnGame:getChildByName("update_tips"):setVisible(true)
+		        else
+		            btnGame:getChildByName("update_tips"):setVisible(false)
+		        end
+		    end
+		else
+		    if (appConfigProxy._appStoreSwitch == 0) then
+		        btnGame:getChildByName("update_tips"):setVisible(true)
+		    end
+		end
+
+		--审核模式 只显示一页
+		if (appConfigProxy._appStoreSwitch == 1) then
+		    if (i == MAX_SHOW_LIST) then
+		        break
+		    end
+		end
+	end
+
+	--附加更新大厅视图事件
+	self:attach("M2V_Update_Plaza_Game_List", function (e, obj)
+	local curIndexBak = pageView:getCurrentPageIndex()
+	pageView:removeAllItems()
+	self._btnGameArrayCache = {}
+
+	local gameListAccessProxy = AppFacade:getInstance():retrieveProxy("GameListAccessProxy")
+	local backGameList = clone(gamelist)
+	for i=#gameListAccessProxy._gameList, 1, -1 do
+	    for j=1, #backGameList do
+	        if (backGameList[j]._KindID == gameListAccessProxy._gameList[i].kinid) then
+	            local Item = table.remove(backGameList, j)
+	            table.insert(backGameList, 1, Item)    
+	            break
+	        end
+	    end
+	end
+
+	pageCount = 0
+	for i = 1, #backGameList do
+	    local index = (i - 1) % MAX_SHOW_LIST
+	    if (index == 0) then
+	        pageLayout = mediumLayout:getChildByName("GameListItem"):clone()
+	        pageView:pushBackCustomItem(pageLayout)
+	        pageCount = pageCount + 1
+	    end
+
+	    assert(pageLayout ~= nil, "can't find game item")
+
+	    local gameinfo = backGameList[i]
+
+	    local unsel_img = string.format("game_%d_%d.png", gameinfo._KindID, 0)
+	    local sel_img = string.format("game_%d_%d.png", gameinfo._KindID, 1)
+
+	    local unsel_frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(unsel_img)
+	    local sel_frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(sel_img)
+
+	    --图片存在检查
+	    if unsel_frame == nil then
+	        unsel_img = "game_default.png"
+	        unsel_frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(unsel_img)
+	        assert(unsel_frame ~= nil, "can't find imageframe")
+	    end
+
+	    if sel_frame == nil then
+	        sel_img = "game_default.png"
+	        sel_frame = cc.SpriteFrameCache:getInstance():getSpriteFrame(sel_img)
+	        assert(sel_frame ~= nil, "can't find imageframe")
+	    end
+
+
+	    local btnGame = pageLayout:getChildByName(string.format("btn_game_%d", index + 1))
+	    
+	    btnGame:addClickEventListener(handler(self, self.onGameClickEvent))
+
+	    btnGame:loadTextures(unsel_img, sel_img, "", ccui.TextureResType.plistType)
+
+	    --更新数据
+	    self._btnGameArrayCache[gameinfo._KindID] = btnGame
+
+	    btnGame:setTag(tonumber(gameinfo._KindID))
+
+	    btnGame:setVisible(true)
+
+	    --检测是否有更新
+	    local version = versionProxy:getResVersion(gameinfo._KindID)
+
+	    if version then
+	        if gameinfo._ServerResVersion > version and gameinfo._kindID ~= "410" then
+	            if (appConfigProxy._appStoreSwitch == 0) then
+	                btnGame:getChildByName("update_tips"):setVisible(true)
+	            end
+	        end
+	    else
+	        if (appConfigProxy._appStoreSwitch == 0 and gameinfo._kindID ~= "410") then
+	            btnGame:getChildByName("update_tips"):setVisible(true)
+	        end
+	    end
+
+
+	    --审核模式 只显示一页
+	    if (appConfigProxy._appStoreSwitch == 1) then
+	        if (i == MAX_SHOW_LIST) then
+	            break
+	        end
+	    end			
+	end
+
+	pageView:scrollToPage(curIndexBak)
+end)	
    -- end
 	--------------------------------------------------------------
 	
@@ -1516,112 +1514,112 @@ function ClientScene:initGameList()
 	--------------------------------------------------
 end
 
-function ClientScene:initRoomList(kinid)
-	local tabRoomListInfo = {}
-	for k,v in pairs(GlobalUserItem.roomlist) do
-		if tonumber(v[1]) == kinid then
-			local listinfo = v[2]
-			if type(listinfo) ~= "table" then
-				break
-			end
-			local normalList = {}
-			for k,v in pairs(listinfo) do
-				if v.wServerType ~= yl.GAME_GENRE_PERSONAL then
-					table.insert( normalList, v)
-				end
-			end
-			tabRoomListInfo = normalList
-			break
-		end
-	end	
+-- function ClientScene:initRoomList(kinid)
+-- 	local tabRoomListInfo = {}
+-- 	for k,v in pairs(GlobalUserItem.roomlist) do
+-- 		if tonumber(v[1]) == kinid then
+-- 			local listinfo = v[2]
+-- 			if type(listinfo) ~= "table" then
+-- 				break
+-- 			end
+-- 			local normalList = {}
+-- 			for k,v in pairs(listinfo) do
+-- 				if v.wServerType ~= yl.GAME_GENRE_PERSONAL then
+-- 					table.insert( normalList, v)
+-- 				end
+-- 			end
+-- 			tabRoomListInfo = normalList
+-- 			break
+-- 		end
+-- 	end	
 	
-	local findGameinfo = nil
-	--过滤
-	for i = 1, #appConfigProxy._gameList do
-		local gameinfo = appConfigProxy._gameList[i]
-		if (tonumber(gameinfo._KindID) == kinid) then
-			findGameinfo = gameinfo
-		end
-	end	
+-- 	local findGameinfo = nil
+-- 	--过滤
+-- 	for i = 1, #appConfigProxy._gameList do
+-- 		local gameinfo = appConfigProxy._gameList[i]
+-- 		if (tonumber(gameinfo._KindID) == kinid) then
+-- 			findGameinfo = gameinfo
+-- 		end
+-- 	end	
 	
-	if (findGameinfo == nil) then
-		showToast(self, "查找游戏失败", 1)
-		return
-	end
+-- 	if (findGameinfo == nil) then
+-- 		showToast(self, "查找游戏失败", 1)
+-- 		return
+-- 	end
 
-	----------------------------pageView初始化----------------------------------
-	local mediumLayout = self._csbNode:getChildByName("medium_layout")
-	local pageView = mediumLayout:getChildByName("GameListView")
-	local pageLayout = nil
+-- 	----------------------------pageView初始化----------------------------------
+-- 	local mediumLayout = self._csbNode:getChildByName("medium_layout")
+-- 	local pageView = mediumLayout:getChildByName("GameListView")
+-- 	local pageLayout = nil
 
-	for i = 1, #tabRoomListInfo do
-		local iteminfo = tabRoomListInfo[i]
-		local wLv = (iteminfo == nil and 0 or iteminfo.wServerLevel)
+-- 	for i = 1, #tabRoomListInfo do
+-- 		local iteminfo = tabRoomListInfo[i]
+-- 		local wLv = (iteminfo == nil and 0 or iteminfo.wServerLevel)
 
-		if 8 == wLv then
-			--比赛场单独处理
-		else
-			local rule = (iteminfo == nil and 0 or iteminfo.dwServerRule)
-			--wLv = (bit.band(yl.SR_ALLOW_AVERT_CHEAT_MODE, rule) ~= 0) and 10 or iteminfo.wServerLevel
-			wLv = (wLv ~= 0) and wLv or 1
-			local wRoom = math.mod(wLv, 6)--math.mod(wLv, 3)--bit.band(wLv, 3)
-			local szName = (iteminfo == nil and "房间名称" or iteminfo.szServerName)
-			local szCount = (iteminfo == nil and "0" or(iteminfo.dwOnLineCount..""))
-			local szServerScore = (iteminfo == nil and "0" or string.format("%0.2f", iteminfo.lCellScore))
-			local szOnLineCount = (iteminfo == nil and "0" or iteminfo.dwOnLineCount)
-			local dwAndroidCount = (iteminfo == nil and "0" or iteminfo.dwAndroidCount)
-			local dwDummyCount = (iteminfo == nil and "0" or iteminfo.dwDummyCount)
-			local szEnterScore = (iteminfo == nil and "0" or string.format("%0.2f", iteminfo.lEnterScore))
-			local enterGame = GlobalUserItem.m_tabEnterGame
+-- 		if 8 == wLv then
+-- 			--比赛场单独处理
+-- 		else
+-- 			local rule = (iteminfo == nil and 0 or iteminfo.dwServerRule)
+-- 			--wLv = (bit.band(yl.SR_ALLOW_AVERT_CHEAT_MODE, rule) ~= 0) and 10 or iteminfo.wServerLevel
+-- 			wLv = (wLv ~= 0) and wLv or 1
+-- 			local wRoom = math.mod(wLv, 6)--math.mod(wLv, 3)--bit.band(wLv, 3)
+-- 			local szName = (iteminfo == nil and "房间名称" or iteminfo.szServerName)
+-- 			local szCount = (iteminfo == nil and "0" or(iteminfo.dwOnLineCount..""))
+-- 			local szServerScore = (iteminfo == nil and "0" or string.format("%0.2f", iteminfo.lCellScore))
+-- 			local szOnLineCount = (iteminfo == nil and "0" or iteminfo.dwOnLineCount)
+-- 			local dwAndroidCount = (iteminfo == nil and "0" or iteminfo.dwAndroidCount)
+-- 			local dwDummyCount = (iteminfo == nil and "0" or iteminfo.dwDummyCount)
+-- 			local szEnterScore = (iteminfo == nil and "0" or string.format("%0.2f", iteminfo.lEnterScore))
+-- 			local enterGame = GlobalUserItem.m_tabEnterGame
 
-			--房间btn
-			if (i % 3) == 1 then
-				pageLayout = mediumLayout:getChildByName("RoomListItem"):clone()
-				pageView:pushBackCustomItem(pageLayout)
-			end
+-- 			--房间btn
+-- 			if (i % 3) == 1 then
+-- 				pageLayout = mediumLayout:getChildByName("RoomListItem"):clone()
+-- 				pageView:pushBackCustomItem(pageLayout)
+-- 			end
 			
-			local btnRoom = pageLayout:getChildByName(string.format("btn_room_%d", wLv))
-			assert(btnRoom ~= nil)
+-- 			local btnRoom = pageLayout:getChildByName(string.format("btn_room_%d", wLv))
+-- 			assert(btnRoom ~= nil)
 			
-			--加载图片
-			local normalPath = string.format("RoomList/btn_level%d_0.png", wLv)
-			local selectedPath = string.format("RoomList/btn_level%d_1.png", wLv)
-			btnRoom:loadTextures(normalPath, selectedPath)
+-- 			--加载图片
+-- 			local normalPath = string.format("RoomList/btn_level%d_0.png", wLv)
+-- 			local selectedPath = string.format("RoomList/btn_level%d_1.png", wLv)
+-- 			btnRoom:loadTextures(normalPath, selectedPath)
 			
-			--准入分数
-			local textEnterScore = btnRoom:getChildByName("difen")
-			textEnterScore:setString("入场:" .. szEnterScore)
+-- 			--准入分数
+-- 			local textEnterScore = btnRoom:getChildByName("difen")
+-- 			textEnterScore:setString("入场:" .. szEnterScore)
 			
-			--成绩
-			local textServerScore = btnRoom:getChildByName("zunru")
-			textServerScore:setString(szServerScore)
+-- 			--成绩
+-- 			local textServerScore = btnRoom:getChildByName("zunru")
+-- 			textServerScore:setString(szServerScore)
 			
-			--点击回调函数
-			btnRoom:addClickEventListener(function ()
-				GlobalUserItem.setCurGameKind(tonumber(kinid))
-				GlobalUserItem.m_tabEnterGame = findGameinfo
-				self:onGameBtnCallBack(btnRoom, iteminfo)
-			end)
-		end
-	end
-end
+-- 			--点击回调函数
+-- 			btnRoom:addClickEventListener(function ()
+-- 				GlobalUserItem.setCurGameKind(tonumber(kinid))
+-- 				GlobalUserItem.m_tabEnterGame = findGameinfo
+-- 				self:onGameBtnCallBack(btnRoom, iteminfo)
+-- 			end)
+-- 		end
+-- 	end
+-- end
 
-function ClientScene:onGameBtnCallBack(sender, gameinfo)
-	local contextProxy = AppFacade:getInstance():retrieveProxy("ContextProxy")
-	local findContext = contextProxy:findContextByName(VIEW_LIST.CLIENT_SCENE)
+-- function ClientScene:onGameBtnCallBack(sender, gameinfo)
+-- 	local contextProxy = AppFacade:getInstance():retrieveProxy("ContextProxy")
+-- 	local findContext = contextProxy:findContextByName(VIEW_LIST.CLIENT_SCENE)
 	
-	if (findContext == nil) then
-		assert(false, "can't find ClientScene!")
-	end
+-- 	if (findContext == nil) then
+-- 		assert(false, "can't find ClientScene!")
+-- 	end
 	
-	local viewCompoment = findContext:getView()
+-- 	local viewCompoment = findContext:getView()
 	
-	GlobalUserItem.nCurRoomIndex = gameinfo._nRoomIndex
-	GlobalUserItem.bPrivateRoom = (gameinfo.wServerType == yl.GAME_GENRE_PERSONAL)
-	if viewCompoment:roomEnterCheck() then
-		viewCompoment:onStartGame()
-	end	
-end
+-- 	GlobalUserItem.nCurRoomIndex = gameinfo._nRoomIndex
+-- 	GlobalUserItem.bPrivateRoom = (gameinfo.wServerType == yl.GAME_GENRE_PERSONAL)
+-- 	if viewCompoment:roomEnterCheck() then
+-- 		viewCompoment:onStartGame()
+-- 	end	
+-- end
 
 function ClientScene:onGameClickEvent(sender)
 	local kinid = sender:getTag()
@@ -1663,9 +1661,13 @@ function ClientScene:onViewLoad()
 		printf("bank load finished\n")
 	end)
 	--异步开户豪礼
-	appdf.loadImage("client/res/VisitorBind/visitor.plist","client/res/VisitorBind/visitor.png", function ()
-		printf("visitor load finished\n")
-	end)	
+	-- appdf.loadImage("client/res/VisitorBind/visitor.plist","client/res/VisitorBind/visitor.png", function (texture)
+ --        if texture then
+	-- 	    printf("visitor load finished\n")
+ --        else
+ --            printf("no file")
+ --        end
+	-- end)	
 
 	self:loadFinished()
 end
@@ -2003,9 +2005,9 @@ function ClientScene:onEnterRoom()
 				self._gameFrame:onCloseSocket()
 			-- 私人房
 			elseif GlobalUserItem.bPrivateRoom then
-				if PriRoom then
-					PriRoom:getInstance():exitGame()
-				end
+				-- if PriRoom then
+				-- 	PriRoom:getInstance():exitGame()
+				-- end
 				self._gameFrame:onCloseSocket()		
 			end
 
@@ -2129,10 +2131,10 @@ end
 function ClientScene:onEnterTable()
 	print("ClientScene onEnterTable")
 
-	if PriRoom and GlobalUserItem.bPrivateRoom then
-		-- 动作记录
-		PriRoom:getInstance().m_nLoginAction = PriRoom.L_ACTION.ACT_ENTERTABLE
-	end
+	-- if PriRoom and GlobalUserItem.bPrivateRoom then
+	-- 	-- 动作记录
+	-- 	PriRoom:getInstance().m_nLoginAction = PriRoom.L_ACTION.ACT_ENTERTABLE
+	-- end
 	
 	local contextProxy = AppFacade:getInstance():retrieveProxy("ContextProxy")
 	--查找是否游添加过游戏视图
@@ -2249,9 +2251,9 @@ function ClientScene:onKeyBack()
 		elseif curScene == yl.SCENE_GAMELIST then
 			self._gameFrame:onCloseSocket()--MXM
 			GlobalUserItem.nCurRoomIndex = -1 --MXM
-			if PriRoom then
-				PriRoom:getInstance():exitRoom()
-			end
+			-- if PriRoom then
+			-- 	PriRoom:getInstance():exitRoom()
+			-- end
 		elseif curScene == yl.SCENE_ROOMLIST then --MXM为了清除卡线锁表
 			self._gameFrame:onCloseSocket()
 			GlobalUserItem.nCurRoomIndex = -1
@@ -2280,9 +2282,9 @@ function ClientScene:resetClientData()
 	--通知管理
 	NotifyMgr:getInstance():clear()
 	-- 私人房数据
-	if PriRoom then
-		PriRoom:getInstance():reSet()
-	end
+	-- if PriRoom then
+	-- 	PriRoom:getInstance():reSet()
+	-- end
 
 	--移除极光推送
 	MultiPlatform:getInstance():deleteAlias()
@@ -2299,10 +2301,10 @@ function ClientScene:onButtonClickedEvent(tag,ref)
 		end
 		--判断当前场景
 		local curScene = self._sceneRecord[#self._sceneRecord]
-		if PriRoom and not PriRoom.enableQuickStart( curScene ) then
-			--showToast(self, "房卡房间不支持快速开始！", 2)
-			return
-		end
+		-- if PriRoom and not PriRoom.enableQuickStart( curScene ) then
+		-- 	--showToast(self, "房卡房间不支持快速开始！", 2)
+		-- 	return
+		-- end
 
 		--默认使用第一个游戏
 		local entergame = self:getEnterGameInfo()
@@ -2331,10 +2333,10 @@ function ClientScene:onButtonClickedEvent(tag,ref)
 				--showToast(self, "房卡房间不支持快速开始！", 2)
 				return
 			end
-			if self:roomEnterCheck() then
+			-- if self:roomEnterCheck() then
 				--进入房间
 				self:onStartGame()
-			end
+			-- end
 		elseif curScene == yl.SCENE_ROOM then 				--房间桌子列表
 			--坐下
 			self:onEnterRoom()
@@ -2472,46 +2474,46 @@ function ClientScene:onButtonClickedEvent(tag,ref)
 			AppFacade:getInstance():sendNotification(GAME_COMMAMD.PUSH_VIEW, {}, VIEW_LIST.SHARE_LAYER)
 			--self:onChangeShowMode(yl.SCENE_SHARE)
 			--self:showMenu()
-		elseif tag == ClientScene.BT_ACTIVITY then
+		-- elseif tag == ClientScene.BT_ACTIVITY then
 			--AppFacade:getInstance():sendNotification(GAME_COMMAMD.POP_VIEW,{transition = "FADE", time = 1})
-			if(appConfigProxy._appStoreSwitch == 0) then
-				AppFacade:getInstance():sendNotification(GAME_COMMAMD.PUSH_VIEW, {}, VIEW_LIST.ACTIVITY_LAYER)
-			else
-				AppFacade:getInstance():sendNotification(GAME_COMMAMD.PUSH_VIEW, {}, VIEW_LIST.ACTIVITY_IOS_LAYER)
-			end					
+			-- if(appConfigProxy._appStoreSwitch == 0) then
+				-- AppFacade:getInstance():sendNotification(GAME_COMMAMD.PUSH_VIEW, {}, VIEW_LIST.ACTIVITY_LAYER)
+			-- else
+			-- 	AppFacade:getInstance():sendNotification(GAME_COMMAMD.PUSH_VIEW, {}, VIEW_LIST.ACTIVITY_IOS_LAYER)
+			-- end					
 		elseif tag == ClientScene.BT_EARN then
 			AppFacade:getInstance():sendNotification(GAME_COMMAMD.PUSH_VIEW, {}, VIEW_LIST.EARN_LAYER)
-		elseif tag == ClientScene.BT_MATCH then		
+		-- elseif tag == ClientScene.BT_MATCH then		
 			--local activityLayer = ActivityLayer:create(self._csbNode)
 			--self._csbNode:addChild(activityLayer)
-		elseif tag == ClientScene.BT_PRIBRAND then
-			if PriRoom then
-				--玩家是否第一次进入私人房游戏
-				local bprifristenter = cc.UserDefault:getInstance():getBoolForKey("prifristenter",true)
-				if bprifristenter then
-					--默认使用第一个游戏
-					local entergame = appConfigProxy._gameList[1]
-					if nil ~= entergame then
-						local _kindID = tonumber(entergame._KindID)
-						GlobalUserItem.setCurGameKind(_kindID)
-						--默认第一个私人房游戏
-						cc.UserDefault:getInstance():setIntegerForKey("prikindid", _kindID)
-					end
+		-- elseif tag == ClientScene.BT_PRIBRAND then
+		-- 	if PriRoom then
+		-- 		--玩家是否第一次进入私人房游戏
+		-- 		local bprifristenter = cc.UserDefault:getInstance():getBoolForKey("prifristenter",true)
+		-- 		if bprifristenter then
+		-- 			--默认使用第一个游戏
+		-- 			local entergame = appConfigProxy._gameList[1]
+		-- 			if nil ~= entergame then
+		-- 				local _kindID = tonumber(entergame._KindID)
+		-- 				GlobalUserItem.setCurGameKind(_kindID)
+		-- 				--默认第一个私人房游戏
+		-- 				cc.UserDefault:getInstance():setIntegerForKey("prikindid", _kindID)
+		-- 			end
 					
-					cc.UserDefault:getInstance():setBoolForKey("prifristenter",GlobalUserItem.bpriFristAble)  
-				else
-					local prikindid = cc.UserDefault:getInstance():getIntegerForKey("prikindid")
-					GlobalUserItem.setCurGameKind(prikindid)
+		-- 			cc.UserDefault:getInstance():setBoolForKey("prifristenter",GlobalUserItem.bpriFristAble)  
+		-- 		else
+		-- 			local prikindid = cc.UserDefault:getInstance():getIntegerForKey("prikindid")
+		-- 			GlobalUserItem.setCurGameKind(prikindid)
 					
-					--设置三个牛牛用同一个创建界面
-					if prikindid == 27 or prikindid == 28 or prikindid == 36 then
-						prikindid = 27
-					end
-					self:loadPriGameList(prikindid)
-				end
-				self.m_actStartTargetGameAni:play(string.format("%d", GlobalUserItem.nCurGameKind),true)
-				self:onChangeShowMode(PriRoom.LAYTAG.LAYER_ROOMLIST)
-			end
+		-- 			--设置三个牛牛用同一个创建界面
+		-- 			if prikindid == 27 or prikindid == 28 or prikindid == 36 then
+		-- 				prikindid = 27
+		-- 			end
+		-- 			self:loadPriGameList(prikindid)
+		-- 		end
+		-- 		self.m_actStartTargetGameAni:play(string.format("%d", GlobalUserItem.nCurGameKind),true)
+		-- 		self:onChangeShowMode(PriRoom.LAYTAG.LAYER_ROOMLIST)
+		-- 	end
 		elseif tag == ClientScene.BT_GONGGAO then
 			if(appConfigProxy._appStoreSwitch == 0) then
 				AppFacade:getInstance():sendNotification(GAME_COMMAMD.PUSH_VIEW, {}, VIEW_LIST.GONGGAO_LAYER)
@@ -2584,9 +2586,9 @@ function ClientScene:getTagLayer(tag, param)
 			if gameScene then
 				dst = gameScene:create(self._gameFrame,self)				
 			end
-			if PriRoom and nil ~= dst and true == GlobalUserItem.bPrivateRoom then
-				PriRoom:getInstance():enterGame(dst, self)
-			end
+			-- if PriRoom and nil ~= dst and true == GlobalUserItem.bPrivateRoom then
+			-- 	PriRoom:getInstance():enterGame(dst, self)
+			-- end
 		else
 			print("游戏记录错误")
 		end			
@@ -2619,8 +2621,8 @@ function ClientScene:getTagLayer(tag, param)
 		dst = Friend:create(self)
 	elseif tag == yl.SCENE_MODIFY then				
 		dst = ModifyPasswd:create(self)
-	elseif tag == yl.SCENE_TABLE then
-		dst = TableLayer:create(self)
+	-- elseif tag == yl.SCENE_TABLE then
+	-- 	dst = TableLayer:create(self)
 	elseif tag == yl.SCENE_FEEDBACK then
 		dst = FeedbackLayer:create(self)
 	elseif tag == yl.SCENE_FEEDBACKLIST then
@@ -2629,14 +2631,14 @@ function ClientScene:getTagLayer(tag, param)
 		dst = FaqLayer:create(self)
 	elseif tag == yl.SCENE_BINDINGREG then
 		dst = BindingRegisterLayer:create(self)
-	elseif tag == yl.SCENE_ACTIVITY then
-		dst = ActivityLayer:create(self)
+	-- elseif tag == yl.SCENE_ACTIVITY then
+		-- dst = ActivityLayer:create(self)
 	elseif tag == yl.SCENE_EARN then
 		dst = EarnMoney:create(self)
 	elseif tag == yl.SCENE_SHARE then
 		dst = PromoterInputLayer:create(self._csbNode)
-	elseif PriRoom then
-		dst = PriRoom:getInstance():getTagLayer(tag, param, self)
+	-- elseif PriRoom then
+	-- 	dst = PriRoom:getInstance():getTagLayer(tag, param, self)
 	end
 	if dst then
 		dst:setTag(tag)
@@ -2851,10 +2853,10 @@ function ClientScene:quickStartGame()
 				--showToast(self, "房卡房间不支持快速开始！", 2)
 				return
 			end
-			if self:roomEnterCheck() then
+			-- if self:roomEnterCheck() then
 				--启动游戏
 				self:onStartGame()
-			end
+			-- end
 		end	
 	end
 end
@@ -2941,27 +2943,27 @@ function ClientScene:loadPriGameList(dwKindID)
 	return false
 end
 
-function ClientScene:roomEnterCheck()
-	local roominfo = GlobalUserItem.GetRoomInfo(GlobalUserItem.nCurRoomIndex)
+-- function ClientScene:roomEnterCheck()
+	-- local roominfo = GlobalUserItem.GetRoomInfo(GlobalUserItem.nCurRoomIndex)
 
 	-- 密码
-	if bit.band(roominfo.wServerKind, yl.SERVER_GENRE_PASSWD) ~= 0 then
-		self.m_bEnableKeyBack = false
-		self:createPasswordEdit("请输入房间密码", function(pass)
-			self.m_bEnableKeyBack = true
-			GlobalUserItem.szRoomPasswd = pass
-			self:onStartGame()
-		end, "RoomList/sp_pwroom_title.png")
-		return false
-	end
+	-- if bit.band(roominfo.wServerKind, yl.SERVER_GENRE_PASSWD) ~= 0 then
+	-- 	self.m_bEnableKeyBack = false
+	-- 	self:createPasswordEdit("请输入房间密码", function(pass)
+	-- 		self.m_bEnableKeyBack = true
+	-- 		GlobalUserItem.szRoomPasswd = pass
+	-- 		self:onStartGame()
+	-- 	end, "RoomList/sp_pwroom_title.png")
+	-- 	return false
+	-- end
 
 	-- 比赛
-	if bit.band(roominfo.wServerType ,yl.GAME_GENRE_MATCH )  ~= 0 then
-		showToast(self,"暂不支持比赛房间！",1)
-		return false
-	end
-	return true
-end
+	-- if bit.band(roominfo.wServerType ,yl.GAME_GENRE_MATCH )  ~= 0 then
+	-- 	showToast(self,"暂不支持比赛房间！",1)
+	-- 	return false
+	-- end
+	-- return true
+-- end
 
 --网络通知
 function ClientScene:onNotify(msg)
@@ -3065,74 +3067,74 @@ function ClientScene:onGameTrumpet()
 	end
 end
 
-local BT_CLOSE_DLG = 1
-local BT_CONFIRM = 2
-function ClientScene:createPasswordEdit(placeholder, confirmFun)
-	local runScene = cc.Director:getInstance():getRunningScene()
-	local layout = ccui.Layout:create()
-	layout:setContentSize(cc.size(appdf.WIDTH, appdf.HEIGHT))
-	layout:setTouchEnabled(true)
-	layout:setSwallowTouches(true)
-	runScene:addChild(layout)
+-- local BT_CLOSE_DLG = 1
+-- local BT_CONFIRM = 2
+-- function ClientScene:createPasswordEdit(placeholder, confirmFun)
+-- 	local runScene = cc.Director:getInstance():getRunningScene()
+-- 	local layout = ccui.Layout:create()
+-- 	layout:setContentSize(cc.size(appdf.WIDTH, appdf.HEIGHT))
+-- 	layout:setTouchEnabled(true)
+-- 	layout:setSwallowTouches(true)
+-- 	runScene:addChild(layout)
 
-	local bg = display.newSprite("plaza/plaza_query_bg.png")
-		:move(appdf.WIDTH/2,appdf.HEIGHT/2)
-		:addTo(layout)
-	local bg_size = bg:getContentSize()
+-- 	local bg = display.newSprite("plaza/plaza_query_bg.png")
+-- 		:move(appdf.WIDTH/2,appdf.HEIGHT/2)
+-- 		:addTo(layout)
+-- 	local bg_size = bg:getContentSize()
 
-	--编辑框
-	local editpass = ccui.EditBox:create(cc.size(490,67), "RoomList/sp_pwedit_bg.png")
-		:move(bg_size.width * 0.5,180)
-		:setAnchorPoint(cc.p(0.5,0.5))
-		:setFontName("base/fonts/round_body.ttf")
-		:setPlaceholderFontName("base/fonts/round_body.ttf")
-		:setFontSize(24)
-		:setPlaceholderFontSize(24)
-		:setMaxLength(32)
-		:setInputFlag(cc.EDITBOX_INPUT_FLAG_PASSWORD)
-		:setInputMode(cc.EDITBOX_INPUT_MODE_SINGLELINE)
-		:setPlaceHolder(placeholder)
-		:setFontColor(cc.c4b(254,164,107,255))	
-		:addTo(bg)
+-- 	--编辑框
+-- 	local editpass = ccui.EditBox:create(cc.size(490,67), "RoomList/sp_pwedit_bg.png")
+-- 		:move(bg_size.width * 0.5,180)
+-- 		:setAnchorPoint(cc.p(0.5,0.5))
+-- 		:setFontName("base/fonts/round_body.ttf")
+-- 		:setPlaceholderFontName("base/fonts/round_body.ttf")
+-- 		:setFontSize(24)
+-- 		:setPlaceholderFontSize(24)
+-- 		:setMaxLength(32)
+-- 		:setInputFlag(cc.EDITBOX_INPUT_FLAG_PASSWORD)
+-- 		:setInputMode(cc.EDITBOX_INPUT_MODE_SINGLELINE)
+-- 		:setPlaceHolder(placeholder)
+-- 		:setFontColor(cc.c4b(254,164,107,255))	
+-- 		:addTo(bg)
 
-	local function btnEvent( sender, eventType )
-		if eventType == ccui.TouchEventType.ended then
-			local tag = sender:getTag()
-			if BT_CLOSE_DLG == tag then
-				layout:removeFromParent()
-				self.m_bEnableKeyBack = true
-			elseif  BT_CONFIRM == tag then
-				local editText = string.gsub(editpass:getText(), " ", "")
-				if ExternalFun.stringLen(editText) < 1 then
-					showToast(runScene, "密码不能为空", 2)
-					return
-				end
+-- 	local function btnEvent( sender, eventType )
+-- 		if eventType == ccui.TouchEventType.ended then
+-- 			local tag = sender:getTag()
+-- 			if BT_CLOSE_DLG == tag then
+-- 				layout:removeFromParent()
+-- 				self.m_bEnableKeyBack = true
+-- 			elseif  BT_CONFIRM == tag then
+-- 				local editText = string.gsub(editpass:getText(), " ", "")
+-- 				if ExternalFun.stringLen(editText) < 1 then
+-- 					showToast(runScene, "密码不能为空", 2)
+-- 					return
+-- 				end
 
-				if type(confirmFun) == "function" then
-					confirmFun(editText)
-				end
-				layout:removeFromParent()
-			end
-		end
-	end
+-- 				if type(confirmFun) == "function" then
+-- 					confirmFun(editText)
+-- 				end
+-- 				layout:removeFromParent()
+-- 			end
+-- 		end
+-- 	end
 
-	--标题
-	local sp = cc.Sprite:create("RoomList/sp_pwtitle_room.png")
-	bg:addChild(sp)
-	sp:setPosition(bg_size.width * 0.5, bg_size.height - 50)
+-- 	--标题
+-- 	local sp = cc.Sprite:create("RoomList/sp_pwtitle_room.png")
+-- 	bg:addChild(sp)
+-- 	sp:setPosition(bg_size.width * 0.5, bg_size.height - 50)
 
-	ccui.Button:create("p_bt_close_0.png", "p_bt_close_1.png", "p_bt_close_0.png", UI_TEX_TYPE_PLIST)
-		:move(bg_size.width -  50, bg_size.height - 50)
-		:setTag(BT_CLOSE_DLG)
-		:addTo(bg)
-		:addTouchEventListener(btnEvent)
+-- 	ccui.Button:create("p_bt_close_0.png", "p_bt_close_1.png", "p_bt_close_0.png", UI_TEX_TYPE_PLIST)
+-- 		:move(bg_size.width -  50, bg_size.height - 50)
+-- 		:setTag(BT_CLOSE_DLG)
+-- 		:addTo(bg)
+-- 		:addTouchEventListener(btnEvent)
 
-	ccui.Button:create("General/bt_confirm_0.png", "General/bt_confirm_1.png")
-		:move(bg_size.width * 0.5, 50)
-		:setTag(BT_CONFIRM)
-		:addTo(bg)
-		:addTouchEventListener(btnEvent)
-end
+-- 	ccui.Button:create("General/bt_confirm_0.png", "General/bt_confirm_1.png")
+-- 		:move(bg_size.width * 0.5, 50)
+-- 		:setTag(BT_CONFIRM)
+-- 		:addTo(bg)
+-- 		:addTouchEventListener(btnEvent)
+-- end
 
 function ClientScene:queryUserScoreInfo(queryCallBack)
 	local ostime = os.time()
@@ -3193,12 +3195,12 @@ function ClientScene:queryTaskInfo()--MXM签到是否一开始显示签到
 				else
 					AppFacade:getInstance():sendNotification(GAME_COMMAMD.POP_VIEW, {Name = VIEW_LIST.POPWAIT_LAYER})
 					-- 显示广告
-					if GlobalUserItem.isShowAdNotice() then
-						if(appConfigProxy._appStoreSwitch == 0) then
-							local webview = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.WebViewLayer"):create(self)
-							self:addChild(webview)
-						end
-					end
+					-- if GlobalUserItem.isShowAdNotice() then
+					-- 	if(appConfigProxy._appStoreSwitch == 0) then
+					-- 		local webview = appdf.req(appdf.CLIENT_SRC.."plaza.views.layer.plaza.WebViewLayer"):create(self)
+					-- 		self:addChild(webview)
+					-- 	end
+					-- end
 				end
 			end
 			self:queryLevelInfo()--暂时屏蔽用户等级提示

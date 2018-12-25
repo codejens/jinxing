@@ -8,11 +8,10 @@ yl.KIND_ID								= 122
 yl.STATION_ID							= 1
 
 --测试
-yl.LOGONSERVER							="192.168.102.252"--"game.miankee.top"--"47.99.108.20"--"103.53.127.72"--"103.60.167.154"--"game.beiyoub.top"----"47.107.119.160"------"game.yoohg.xyz"
+yl.LOGONSERVER							="192.168.102.250"--"game.miankee.top"--"47.99.108.20"--"103.53.127.72"--"103.60.167.154"--"game.beiyoub.top"----"47.107.119.160"------"game.yoohg.xyz"
 yl.SERVER_LIST = 
 {
-    "192.168.102.252"
-   -- "103.53.127.72"
+   -- "192.168.102.250"
     --"103.60.167.154"
    --"game.miankee.top"
     --"game.beiyoub.top"
@@ -981,9 +980,9 @@ end
 
 function string.formatNumberFhousands(num)
 
-	assert(type(num) == "number")
+	-- assert(type(num) == "number")
 	if (type(num) ~= "number") then
-		return "0"
+		return num
 	end
 	
 	return string.format("%0.2f", tonumber(num))

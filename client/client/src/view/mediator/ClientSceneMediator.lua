@@ -284,9 +284,9 @@ function ClientSceneMediator:onEnterGame(gameinfo, isUpdate)
 				
 				GlobalUserItem.nCurRoomIndex = 1
 				GlobalUserItem.bPrivateRoom = (gameinfo.wServerType == yl.GAME_GENRE_PERSONAL)
-				if viewCompoment:roomEnterCheck() then
+				-- if viewCompoment:roomEnterCheck() then
 					viewCompoment:onStartGame()
-				end
+				-- end
 				return
 			end
 		end
@@ -307,9 +307,9 @@ function ClientSceneMediator:onStartGame()
 	
 	local viewCompoment = findContext:getView()
 	
-	if viewCompoment:roomEnterCheck() then
+	-- if viewCompoment:roomEnterCheck() then
 		viewCompoment:onStartGame()
-	end		
+	-- end		
 end
 
 return ClientSceneMediator

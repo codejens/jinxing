@@ -382,9 +382,9 @@ function RoomListLayer:initUI()
 
 						if item.wServerType == yl.GAME_GENRE_PERSONAL then
 							if GlobalUserItem.bEnableRoomCard then
-								if PriRoom then
-									PriRoom:getInstance().m_tabPriModeGame[item.wKindID] = true
-								end				
+								-- if PriRoom then
+								-- 	PriRoom:getInstance().m_tabPriModeGame[item.wKindID] = true
+								-- end				
 								table.insert(tempAllRoom[item.wKindID], item)
 							end
 						else
@@ -404,9 +404,9 @@ function RoomListLayer:initUI()
 						--记录游戏ID
 						table.insert(roomlist,k)
 						table.insert(roomlist,v)
-						if PriRoom then
-							PriRoom:getInstance().m_tabPriRoomList[k] = v
-						end
+						-- if PriRoom then
+						-- 	PriRoom:getInstance().m_tabPriRoomList[k] = v
+						-- end
 						--加入缓存
 						table.insert(GlobalUserItem.roomlist,roomlist)
 					end
@@ -458,9 +458,9 @@ function RoomListLayer:onGameBtnCallBack(sender, gameinfo)
 	
 	GlobalUserItem.nCurRoomIndex = gameinfo._nRoomIndex
 	GlobalUserItem.bPrivateRoom = (gameinfo.wServerType == yl.GAME_GENRE_PERSONAL)
-	if viewCompoment:roomEnterCheck() then
+	-- if viewCompoment:roomEnterCheck() then
 		viewCompoment:onStartGame()
-	end	
+	-- end	
 end
 
 function RoomListLayer:onBtnCallBack(sender)
@@ -484,9 +484,9 @@ function RoomListLayer:onBtnCallBack(sender)
 		local viewCompoment = findContext:getView()
 		
 		GlobalUserItem.nCurRoomIndex = 1
-		if viewCompoment:roomEnterCheck() then
+		-- if viewCompoment:roomEnterCheck() then
 			viewCompoment:onStartGame()
-		end	
+		-- end	
 	end
 end
 
@@ -513,11 +513,11 @@ end
 function RoomListLayer:onStartGame(index)
 	local iteminfo = GlobalUserItem.GetRoomInfo(index)
 	if iteminfo ~= nil then
-		if PriRoom and true == GlobalUserItem.bPrivateRoom then
-			self:showPopWait()
-		else
+		-- if PriRoom and true == GlobalUserItem.bPrivateRoom then
+		-- 	self:showPopWait()
+		-- else
 			self._scene:showGameWait()
-		end
+		-- end
 		
 		self._scene:onStartGame(index)
 	end

@@ -144,9 +144,9 @@ function GameFrameEngine:onSocketEvent(main,sub,dataBuffer)
 			self._shotFrame:onGameSocketEvent(main,sub,dataBuffer)
 		end
 		-- 私人房
-		if PriRoom then
-			PriRoom:getInstance():getNetFrame():onGameSocketEvent(main,sub,dataBuffer)
-		end
+		-- if PriRoom then
+		-- 	PriRoom:getInstance():getNetFrame():onGameSocketEvent(main,sub,dataBuffer)
+		-- end
 	end
 end
 
@@ -223,9 +223,9 @@ function GameFrameEngine:onSocketLogonFinish()
 		self._callBack(-1,"获取自己信息失败！")
 		return
 	end
-	if GlobalUserItem.bPrivateRoom and PriRoom then		
-		PriRoom:getInstance():onLoginPriRoomFinish()
-	else
+	-- if GlobalUserItem.bPrivateRoom and PriRoom then		
+	-- 	PriRoom:getInstance():onLoginPriRoomFinish()
+	-- else
 		if self._wTableID ~= yl.INVALID_TABLE then
 			self:LoadGameView(function ()
 				self:SendGameOption()
@@ -234,7 +234,7 @@ function GameFrameEngine:onSocketLogonFinish()
 			--用户第一次进入，未坐桌 或 重连操作，上一局已结束，当前局未坐桌
 			self:startGame()
 		end
-	end
+	-- end
 end
 
 --房间配置

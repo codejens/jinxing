@@ -1545,7 +1545,7 @@ function BankLayer:onBankCallBack(result,message)
 
         if self._bankFrame._oprateCode == BankFrame.OP_SEND_SCORE then
             -- 转账凭证
-            self:showCerLayer(self._bankFrame._tabTarget)
+            -- self:showCerLayer(self._bankFrame._tabTarget)
         end
 	end
 
@@ -1574,129 +1574,129 @@ function BankLayer:dismissPopWait()
 	AppFacade:getInstance():sendNotification(GAME_COMMAMD.POP_VIEW, {Name = VIEW_LIST.POPWAIT_LAYER})
 end
 
-local TAG_MASK = 101
-local BTN_SHARE = 102
-local BTN_SAVEPIC = 103
--- 显示凭证
-function BankLayer:showCerLayer( tabData )
-    if type(tabData) ~= "table" then
-        return
-    end
-    -- 加载csb资源
-    local rootLayer, csbNode = ExternalFun.loadRootCSB("Bank/BankCerLayer.csb", self)
-    local stamp = tabData.opTime or os.time()
+-- local TAG_MASK = 101
+-- local BTN_SHARE = 102
+-- local BTN_SAVEPIC = 103
+-- -- 显示凭证
+-- function BankLayer:showCerLayer( tabData )
+--     if type(tabData) ~= "table" then
+--         return
+--     end
+--     -- 加载csb资源
+--     local rootLayer, csbNode = ExternalFun.loadRootCSB("Bank/BankCerLayer.csb", self)
+--     local stamp = tabData.opTime or os.time()
 
-    local hide = function()
-        local scale1 = cc.ScaleTo:create(0.2, 0.0001)
-        local call1 = cc.CallFunc:create(function()
-            rootLayer:removeFromParent()
-        end)
-        csbNode.m_imageBg:runAction(cc.Sequence:create(scale1, call1))
-    end
-    local url = GlobalUserItem.getShareUrl()
-    -- 截图分享
-    local framesize = cc.Director:getInstance():getOpenGLView():getFrameSize()
-    local area = cc.rect(0, 0, framesize.width, framesize.height)
+--     local hide = function()
+--         local scale1 = cc.ScaleTo:create(0.2, 0.0001)
+--         local call1 = cc.CallFunc:create(function()
+--             rootLayer:removeFromParent()
+--         end)
+--         csbNode.m_imageBg:runAction(cc.Sequence:create(scale1, call1))
+--     end
+--     local url = GlobalUserItem.getShareUrl()
+--     -- 截图分享
+--     local framesize = cc.Director:getInstance():getOpenGLView():getFrameSize()
+--     local area = cc.rect(0, 0, framesize.width, framesize.height)
 
-    local touchFunC = function(ref, tType)
-        if tType == ccui.TouchEventType.ended then
-            local tag = ref:getTag()
-            if TAG_MASK == tag then
-                hide()
-            elseif BTN_SHARE == tag then
-                ExternalFun.popupTouchFilter(0, false)
-                captureScreenWithArea(area, "ce_code.png", function(ok, savepath)
-                    ExternalFun.dismissTouchFilter()
-                    if ok then
-                        MultiPlatform:getInstance():customShare(function(isok)
-                                    end, "转账凭证", "分享我的转账凭证", url, savepath, "true")
-                    end
-                end)
-            elseif BTN_SAVEPIC == tag then
-                ExternalFun.popupTouchFilter(0, false)
-                captureScreenWithArea(area, "ce_code.png", function(ok, savepath)         
-                    if ok then  
-                        if true == MultiPlatform:getInstance():saveImgToSystemGallery(savepath, stamp .. "ce_code.png") then
-                            showToast(self, "您的转账凭证图片已保存至系统相册", 1)
-                        end
-                    end
-                    self:runAction(cc.Sequence:create(cc.DelayTime:create(3), cc.CallFunc:create(function()
-                        ExternalFun.dismissTouchFilter()
-                    end)))
-                end)
-            end           
-        end
-    end
+--     local touchFunC = function(ref, tType)
+--         if tType == ccui.TouchEventType.ended then
+--             local tag = ref:getTag()
+--             if TAG_MASK == tag then
+--                 hide()
+--             elseif BTN_SHARE == tag then
+--                 ExternalFun.popupTouchFilter(0, false)
+--                 captureScreenWithArea(area, "ce_code.png", function(ok, savepath)
+--                     ExternalFun.dismissTouchFilter()
+--                     if ok then
+--                         MultiPlatform:getInstance():customShare(function(isok)
+--                                     end, "转账凭证", "分享我的转账凭证", url, savepath, "true")
+--                     end
+--                 end)
+--             elseif BTN_SAVEPIC == tag then
+--                 ExternalFun.popupTouchFilter(0, false)
+--                 captureScreenWithArea(area, "ce_code.png", function(ok, savepath)         
+--                     if ok then  
+--                         if true == MultiPlatform:getInstance():saveImgToSystemGallery(savepath, stamp .. "ce_code.png") then
+--                             showToast(self, "您的转账凭证图片已保存至系统相册", 1)
+--                         end
+--                     end
+--                     self:runAction(cc.Sequence:create(cc.DelayTime:create(3), cc.CallFunc:create(function()
+--                         ExternalFun.dismissTouchFilter()
+--                     end)))
+--                 end)
+--             end           
+--         end
+--     end
 
-    -- 遮罩
-    local mask = csbNode:getChildByName("panel_mask")
-    mask:setTag(TAG_MASK)
-    mask:addTouchEventListener( touchFunC )
+--     -- 遮罩
+--     local mask = csbNode:getChildByName("panel_mask")
+--     mask:setTag(TAG_MASK)
+--     mask:addTouchEventListener( touchFunC )
 
-    -- 底板
-    local image_bg = csbNode:getChildByName("image_bg")
-    image_bg:setTouchEnabled(true)
-    image_bg:setSwallowTouches(true)
-    image_bg:setScale(0.00001)
-    csbNode.m_imageBg = image_bg
+--     -- 底板
+--     local image_bg = csbNode:getChildByName("image_bg")
+--     image_bg:setTouchEnabled(true)
+--     image_bg:setSwallowTouches(true)
+--     image_bg:setScale(0.00001)
+--     csbNode.m_imageBg = image_bg
 
-    -- 赠送人昵称
-    local sendnick = ClipText:createClipText(cc.size(210, 30), GlobalUserItem.szAccount, nil, 30)
-    sendnick:setTextColor(cc.c3b(79, 212, 253))
-    sendnick:setAnchorPoint(cc.p(0, 0.5))
-    sendnick:setPosition(cc.p(260, 450))
-    image_bg:addChild(sendnick)
+--     -- 赠送人昵称
+--     local sendnick = ClipText:createClipText(cc.size(210, 30), GlobalUserItem.szAccount, nil, 30)
+--     sendnick:setTextColor(cc.c3b(79, 212, 253))
+--     sendnick:setAnchorPoint(cc.p(0, 0.5))
+--     sendnick:setPosition(cc.p(260, 450))
+--     image_bg:addChild(sendnick)
 
-    -- 赠送人ID
-    local sendid = image_bg:getChildByName("txt_senduid")
-    sendid:setString(GlobalUserItem.dwGameID .. "")
+--     -- 赠送人ID
+--     local sendid = image_bg:getChildByName("txt_senduid")
+--     sendid:setString(GlobalUserItem.dwGameID .. "")
 
-    -- 接收人昵称
-    local recnick = ClipText:createClipText(cc.size(210, 30), tabData.opTargetAcconts or "", nil, 30)
-    recnick:setTextColor(cc.c3b(79, 212, 253))
-    recnick:setAnchorPoint(cc.p(0, 0.5))
-    recnick:setPosition(cc.p(810, 450))
-    image_bg:addChild(recnick)
+--     -- 接收人昵称
+--     local recnick = ClipText:createClipText(cc.size(210, 30), tabData.opTargetAcconts or "", nil, 30)
+--     recnick:setTextColor(cc.c3b(79, 212, 253))
+--     recnick:setAnchorPoint(cc.p(0, 0.5))
+--     recnick:setPosition(cc.p(810, 450))
+--     image_bg:addChild(recnick)
 
-    -- 接收人ID
-    local recid = image_bg:getChildByName("txt_recuid")
-    local reuid = tabData.opTargetID or 0
-    recid:setString(reuid .. "")
+--     -- 接收人ID
+--     local recid = image_bg:getChildByName("txt_recuid")
+--     local reuid = tabData.opTargetID or 0
+--     recid:setString(reuid .. "")
 
-    -- 赠送游戏币
-    local sendcount = image_bg:getChildByName("atlas_sendnum")
-    local count = tabData.opScore or 0
-    sendcount:setString("" .. count)
+--     -- 赠送游戏币
+--     local sendcount = image_bg:getChildByName("atlas_sendnum")
+--     local count = tabData.opScore or 0
+--     sendcount:setString("" .. count)
 
-    -- 大写
-    local szcount = image_bg:getChildByName("txt_sendnum")
-    local szstr = ""
-    if count < 9999999999999 then
-        szstr = ExternalFun.numberTransiform(count)
-    end
-    szcount:setString(szstr)
+--     -- 大写
+--     local szcount = image_bg:getChildByName("txt_sendnum")
+--     local szstr = ""
+--     if count < 9999999999999 then
+--         szstr = ExternalFun.numberTransiform(count)
+--     end
+--     szcount:setString(szstr)
 
-    -- 日期
-    local txtdate = image_bg:getChildByName("txt_date")    
-    local tt = os.date("*t", stamp)
-    txtdate:setString(string.format("%d.%02d.%02d-%02d:%02d:%02d", tt.year, tt.month, tt.day, tt.hour, tt.min, tt.sec))
+--     -- 日期
+--     local txtdate = image_bg:getChildByName("txt_date")    
+--     local tt = os.date("*t", stamp)
+--     txtdate:setString(string.format("%d.%02d.%02d-%02d:%02d:%02d", tt.year, tt.month, tt.day, tt.hour, tt.min, tt.sec))
 
-    -- 凭证
-    local cer = image_bg:getChildByName("txt_cerno")
-    cer:setString(md5(stamp))
+--     -- 凭证
+--     local cer = image_bg:getChildByName("txt_cerno")
+--     cer:setString(md5(stamp))
 
-    -- 分享
-    local btn = image_bg:getChildByName("btn_share")
-    btn:setTag(BTN_SHARE)
-    btn:addTouchEventListener( touchFunC )
+--     -- 分享
+--     local btn = image_bg:getChildByName("btn_share")
+--     btn:setTag(BTN_SHARE)
+--     btn:addTouchEventListener( touchFunC )
 
-    -- 保存
-    btn = image_bg:getChildByName("btn_save")
-    btn:setTag(BTN_SAVEPIC)
-    btn:addTouchEventListener( touchFunC )
+--     -- 保存
+--     btn = image_bg:getChildByName("btn_save")
+--     btn:setTag(BTN_SAVEPIC)
+--     btn:addTouchEventListener( touchFunC )
 
-    -- 加载动画
-    image_bg:runAction(cc.ScaleTo:create(0.2, 1.0))
-end
+--     -- 加载动画
+--     image_bg:runAction(cc.ScaleTo:create(0.2, 1.0))
+-- end
 
 return BankLayer
